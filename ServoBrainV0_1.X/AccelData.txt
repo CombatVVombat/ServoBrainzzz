@@ -1,0 +1,555 @@
+VelMax: 934
+                                                                   
+StictionPDC: 0
+                                                                
+Velocity[0] 0  Accel: 12  Guess: 50  Error: -38
+                               
+Velocity[1] 12  Accel: 65  Guess: 49  Error: 16
+                               
+Velocity[2] 77  Accel: 52  Guess: 45  Error: 7
+                                
+Velocity[3] 129  Accel: 46  Guess: 43  Error: 3
+                               
+Velocity[4] 175  Accel: 43  Guess: 40  Error: 3
+                               
+Velocity[5] 218  Accel: 43  Guess: 38  Error: 5
+                               
+Velocity[6] 261  Accel: 39  Guess: 36  Error: 3
+                               
+Velocity[7] 300  Accel: 38  Guess: 33  Error: 5
+                               
+Velocity[8] 338  Accel: 36  Guess: 31  Error: 5
+                               
+Velocity[9] 374  Accel: 29  Guess: 29  Error: 0
+                               
+Velocity[10] 403  Accel: 30  Guess: 28  Error: 2
+                              
+Velocity[11] 433  Accel: 29  Guess: 26  Error: 3
+                              
+Velocity[12] 462  Accel: 28  Guess: 25  Error: 3
+                              
+Velocity[13] 490  Accel: 22  Guess: 23  Error: -1
+                             
+Velocity[14] 512  Accel: 28  Guess: 22  Error: 6
+                              
+Velocity[15] 540  Accel: 18  Guess: 21  Error: -3
+                             
+Velocity[16] 558  Accel: 25  Guess: 20  Error: 5
+                              
+Velocity[17] 583  Accel: 22  Guess: 18  Error: 4
+                              
+Velocity[18] 605  Accel: 16  Guess: 17  Error: -1
+                             
+Velocity[19] 621  Accel: 14  Guess: 16  Error: -2
+                             
+Velocity[20] 635  Accel: 20  Guess: 16  Error: 4
+                              
+Velocity[21] 655  Accel: 15  Guess: 14  Error: 1
+                              
+Velocity[22] 670  Accel: 15  Guess: 14  Error: 1
+                              
+Velocity[23] 685  Accel: 11  Guess: 13  Error: -2
+                             
+Velocity[24] 696  Accel: 11  Guess: 12  Error: -1
+                             
+Velocity[25] 707  Accel: 19  Guess: 12  Error: 7
+                              
+Velocity[26] 726  Accel: 11  Guess: 11  Error: 0
+                              
+Velocity[27] 737  Accel: 5  Guess: 10  Error: -5
+                              
+Velocity[28] 742  Accel: 14  Guess: 10  Error: 4
+                              
+Velocity[29] 756  Accel: 18  Guess: 9  Error: 9
+                               
+Velocity[30] 774  Accel: 2  Guess: 8  Error: -6
+                               
+Velocity[31] 776  Accel: 4  Guess: 8  Error: -4
+                               
+Velocity[32] 780  Accel: 15  Guess: 8  Error: 7
+                               
+Velocity[33] 795  Accel: 8  Guess: 7  Error: 1
+                                
+Velocity[34] 803  Accel: 5  Guess: 7  Error: -2
+                               
+Velocity[35] 808  Accel: 1  Guess: 6  Error: -5
+                               
+Velocity[36] 809  Accel: 14  Guess: 6  Error: 8
+                               
+Velocity[37] 823  Accel: 10  Guess: 5  Error: 5
+                               
+Velocity[38] 833  Accel: -2  Guess: 5  Error: -7
+                              
+Velocity[39] 831  Accel: 11  Guess: 5  Error: 6
+                               
+Velocity[40] 842  Accel: 10  Guess: 4  Error: 6
+                               
+Velocity[41] 852  Accel: -5  Guess: 4  Error: -9
+                              
+Velocity[42] 847  Accel: 9  Guess: 4  Error: 5
+                                
+Velocity[43] 856  Accel: -1  Guess: 4  Error: -5
+                              
+Velocity[44] 855  Accel: 9  Guess: 4  Error: 5
+                                
+Velocity[45] 864  Accel: 8  Guess: 3  Error: 5
+                                
+Velocity[46] 872  Accel: -5  Guess: 3  Error: -8
+                              
+Velocity[47] 867  Accel: 10  Guess: 3  Error: 7
+                               
+Velocity[48] 877  Accel: -1  Guess: 3  Error: -4
+                              
+Velocity[49] 876  Accel: 11  Guess: 3  Error: 8
+                               
+Velocity[50] 887  Accel: -7  Guess: 2  Error: -9
+                              
+Velocity[51] 880  Accel: 15  Guess: 2  Error: 13
+                              
+Velocity[52] 895  Accel: -10  Guess: 2  Error: -12
+                            
+Velocity[53] 885  Accel: 7  Guess: 2  Error: 5
+                                
+Velocity[54] 892  Accel: 3  Guess: 2  Error: 1
+                                
+Velocity[55] 895  Accel: 2  Guess: 2  Error: 0
+                                
+Velocity[56] 897  Accel: 0  Guess: 1  Error: -1
+                               
+Velocity[57] 897  Accel: 9  Guess: 1  Error: 8
+                                
+Velocity[58] 906  Accel: 5  Guess: 1  Error: 4
+                                
+Velocity[59] 911  Accel: -13  Guess: 1  Error: -14
+                            
+Velocity[60] 898  Accel: 13  Guess: 1  Error: 12
+                              
+Velocity[61] 911  Accel: 3  Guess: 1  Error: 2
+                                
+Velocity[62] 914  Accel: -7  Guess: 1  Error: -8
+                              
+Velocity[63] 907  Accel: -1  Guess: 1  Error: -2
+      
+
+------------------------------------------------------------
+
+
+VelMax: 935
+                                                                   
+StictionPDC: 0
+                                                                
+Velocity[0] 0  Accel: 10  Guess: 50  Error: -40
+                               
+Velocity[1] 10  Accel: 58  Guess: 49  Error: 9
+                                
+Velocity[2] 68  Accel: 50  Guess: 46  Error: 4
+                                
+Velocity[3] 118  Accel: 50  Guess: 43  Error: 7
+                               
+Velocity[4] 168  Accel: 44  Guess: 41  Error: 3
+                               
+Velocity[5] 212  Accel: 42  Guess: 38  Error: 4
+                               
+Velocity[6] 254  Accel: 40  Guess: 36  Error: 4
+                               
+Velocity[7] 294  Accel: 36  Guess: 34  Error: 2
+                               
+Velocity[8] 330  Accel: 38  Guess: 32  Error: 6
+                               
+Velocity[9] 368  Accel: 32  Guess: 30  Error: 2
+                               
+Velocity[10] 400  Accel: 31  Guess: 28  Error: 3
+                              
+Velocity[11] 431  Accel: 30  Guess: 26  Error: 4
+                              
+Velocity[12] 461  Accel: 24  Guess: 25  Error: -1
+                             
+Velocity[13] 485  Accel: 25  Guess: 24  Error: 1
+                              
+Velocity[14] 510  Accel: 24  Guess: 22  Error: 2
+                              
+Velocity[15] 534  Accel: 26  Guess: 21  Error: 5
+                              
+Velocity[16] 560  Accel: 22  Guess: 20  Error: 2
+                              
+Velocity[17] 582  Accel: 15  Guess: 18  Error: -3
+                             
+Velocity[18] 597  Accel: 22  Guess: 18  Error: 4
+                              
+Velocity[19] 619  Accel: 14  Guess: 16  Error: -2
+                             
+Velocity[20] 633  Accel: 20  Guess: 16  Error: 4
+                              
+Velocity[21] 653  Accel: 15  Guess: 15  Error: 0
+                              
+Velocity[22] 668  Accel: 12  Guess: 14  Error: -2
+                             
+Velocity[23] 680  Accel: 16  Guess: 13  Error: 3
+                              
+Velocity[24] 696  Accel: 11  Guess: 12  Error: -1
+                             
+Velocity[25] 707  Accel: 19  Guess: 12  Error: 7
+                              
+Velocity[26] 726  Accel: 5  Guess: 11  Error: -6
+                              
+Velocity[27] 731  Accel: 21  Guess: 10  Error: 11
+                             
+Velocity[28] 752  Accel: -3  Guess: 9  Error: -12
+                             
+Velocity[29] 749  Accel: 16  Guess: 9  Error: 7
+                               
+Velocity[30] 765  Accel: 13  Guess: 9  Error: 4
+                               
+Velocity[31] 778  Accel: 3  Guess: 8  Error: -5
+                               
+Velocity[32] 781  Accel: 8  Guess: 8  Error: 0
+                                
+Velocity[33] 789  Accel: 7  Guess: 7  Error: 0
+                                
+Velocity[34] 796  Accel: 14  Guess: 7  Error: 7
+                               
+Velocity[35] 810  Accel: 3  Guess: 6  Error: -3
+                               
+Velocity[36] 813  Accel: 8  Guess: 6  Error: 2
+                                
+Velocity[37] 821  Accel: 5  Guess: 6  Error: -1
+                               
+Velocity[38] 826  Accel: 13  Guess: 5  Error: 8
+                               
+Velocity[39] 839  Accel: -4  Guess: 5  Error: -9
+                              
+Velocity[40] 835  Accel: 12  Guess: 5  Error: 7
+                               
+Velocity[41] 847  Accel: 2  Guess: 4  Error: -2
+                               
+Velocity[42] 849  Accel: 4  Guess: 4  Error: 0
+                                
+Velocity[43] 853  Accel: -3  Guess: 4  Error: -7
+                              
+Velocity[44] 850  Accel: 17  Guess: 4  Error: 13
+                              
+Velocity[45] 867  Accel: 1  Guess: 3  Error: -2
+                               
+Velocity[46] 868  Accel: 4  Guess: 3  Error: 1
+                                
+Velocity[47] 872  Accel: 2  Guess: 3  Error: -1
+                               
+Velocity[48] 874  Accel: 10  Guess: 3  Error: 7
+                               
+Velocity[49] 884  Accel: -8  Guess: 2  Error: -10
+                             
+Velocity[50] 876  Accel: 6  Guess: 3  Error: 3
+                                
+Velocity[51] 882  Accel: 9  Guess: 2  Error: 7
+                                
+Velocity[52] 891  Accel: -8  Guess: 2  Error: -10
+                             
+Velocity[53] 883  Accel: 9  Guess: 2  Error: 7
+                                
+Velocity[54] 892  Accel: 8  Guess: 2  Error: 6
+                                
+Velocity[55] 900  Accel: -4  Guess: 1  Error: -5
+                              
+Velocity[56] 896  Accel: 0  Guess: 2  Error: -2
+                               
+Velocity[57] 896  Accel: 9  Guess: 2  Error: 7
+                                
+Velocity[58] 905  Accel: -2  Guess: 1  Error: -3
+                              
+Velocity[59] 903  Accel: 7  Guess: 1  Error: 6
+                                
+Velocity[60] 910  Accel: -9  Guess: 1  Error: -10
+                             
+Velocity[61] 901  Accel: 7  Guess: 1  Error: 6
+                                
+Velocity[62] 908  Accel: 5  Guess: 1  Error: 4
+                                
+Velocity[63] 913  Accel: 0  Guess: 1  Error: -1
+  
+------------------------------------------------------------
+
+VelMax: 933
+                                                                   
+StictionPDC: 0
+                                                                
+Velocity[0] 0  Accel: 11  Guess: 50  Error: -39
+                               
+Velocity[1] 11  Accel: 59  Guess: 49  Error: 10
+                               
+Velocity[2] 70  Accel: 49  Guess: 46  Error: 3
+                                
+Velocity[3] 119  Accel: 53  Guess: 43  Error: 10
+                              
+Velocity[4] 172  Accel: 42  Guess: 40  Error: 2
+                               
+Velocity[5] 214  Accel: 45  Guess: 38  Error: 7
+                               
+Velocity[6] 259  Accel: 35  Guess: 36  Error: -1
+                              
+Velocity[7] 294  Accel: 37  Guess: 34  Error: 3
+                               
+Velocity[8] 331  Accel: 38  Guess: 32  Error: 6
+                               
+Velocity[9] 369  Accel: 29  Guess: 30  Error: -1
+                              
+Velocity[10] 398  Accel: 30  Guess: 28  Error: 2
+                              
+Velocity[11] 428  Accel: 32  Guess: 27  Error: 5
+                              
+Velocity[12] 460  Accel: 26  Guess: 25  Error: 1
+                              
+Velocity[13] 486  Accel: 26  Guess: 23  Error: 3
+                              
+Velocity[14] 512  Accel: 22  Guess: 22  Error: 0
+                              
+Velocity[15] 534  Accel: 19  Guess: 21  Error: -2
+                             
+Velocity[16] 553  Accel: 24  Guess: 20  Error: 4
+                              
+Velocity[17] 577  Accel: 23  Guess: 19  Error: 4
+                              
+Velocity[18] 600  Accel: 16  Guess: 17  Error: -1
+                             
+Velocity[19] 616  Accel: 16  Guess: 16  Error: 0
+                              
+Velocity[20] 632  Accel: 10  Guess: 16  Error: -6
+                             
+Velocity[21] 642  Accel: 23  Guess: 15  Error: 8
+                              
+Velocity[22] 665  Accel: 16  Guess: 14  Error: 2
+                              
+Velocity[23] 681  Accel: 16  Guess: 13  Error: 3
+                              
+Velocity[24] 697  Accel: 6  Guess: 12  Error: -6
+                              
+Velocity[25] 703  Accel: 15  Guess: 12  Error: 3
+                              
+Velocity[26] 718  Accel: 15  Guess: 11  Error: 4
+                              
+Velocity[27] 733  Accel: 14  Guess: 10  Error: 4
+                              
+Velocity[28] 747  Accel: -2  Guess: 9  Error: -11
+                             
+Velocity[29] 745  Accel: 15  Guess: 10  Error: 5
+                              
+Velocity[30] 760  Accel: 15  Guess: 9  Error: 6
+                               
+Velocity[31] 775  Accel: 4  Guess: 8  Error: -4
+                               
+Velocity[32] 779  Accel: 3  Guess: 8  Error: -5
+                               
+Velocity[33] 782  Accel: 13  Guess: 8  Error: 5
+                               
+Velocity[34] 795  Accel: 16  Guess: 7  Error: 9
+                               
+Velocity[35] 811  Accel: -4  Guess: 6  Error: -10
+                             
+Velocity[36] 807  Accel: 9  Guess: 6  Error: 3
+                                
+Velocity[37] 816  Accel: 10  Guess: 6  Error: 4
+                               
+Velocity[38] 826  Accel: 3  Guess: 5  Error: -2
+                               
+Velocity[39] 829  Accel: 10  Guess: 5  Error: 5
+                               
+Velocity[40] 839  Accel: -2  Guess: 5  Error: -7
+                              
+Velocity[41] 837  Accel: 11  Guess: 5  Error: 6
+                               
+Velocity[42] 848  Accel: 0  Guess: 4  Error: -4
+                               
+Velocity[43] 848  Accel: 8  Guess: 4  Error: 4
+                                
+Velocity[44] 856  Accel: -1  Guess: 4  Error: -5
+                              
+Velocity[45] 855  Accel: 12  Guess: 4  Error: 8
+                               
+Velocity[46] 867  Accel: 6  Guess: 3  Error: 3
+                                
+Velocity[47] 873  Accel: -4  Guess: 3  Error: -7
+                              
+Velocity[48] 869  Accel: 8  Guess: 3  Error: 5
+                                
+Velocity[49] 877  Accel: 4  Guess: 3  Error: 1
+                                
+Velocity[50] 881  Accel: -3  Guess: 2  Error: -5
+                              
+Velocity[51] 878  Accel: 2  Guess: 2  Error: 0
+                                
+Velocity[52] 880  Accel: 16  Guess: 2  Error: 14
+                              
+Velocity[53] 896  Accel: -4  Guess: 1  Error: -5
+                              
+Velocity[54] 892  Accel: -7  Guess: 2  Error: -9
+                              
+Velocity[55] 885  Accel: 20  Guess: 2  Error: 18
+                              
+Velocity[56] 905  Accel: -4  Guess: 1  Error: -5
+                              
+Velocity[57] 901  Accel: -8  Guess: 1  Error: -9
+                              
+Velocity[58] 893  Accel: 13  Guess: 2  Error: 11
+                              
+Velocity[59] 906  Accel: 0  Guess: 1  Error: -1
+                               
+Velocity[60] 906  Accel: -2  Guess: 1  Error: -3
+                              
+Velocity[61] 904  Accel: 1  Guess: 1  Error: 0
+                                
+Velocity[62] 905  Accel: 13  Guess: 1  Error: 12
+                              
+Velocity[63] 918  Accel: -9  Guess: 0  Error: -9
+     
+------------------------------------------------------
+
+VelMax: 932
+                                                                   
+StictionPDC: 0
+                                                                
+Velocity[0] 0  Accel: 12  Guess: 50  Error: -38
+                               
+Velocity[1] 12  Accel: 64  Guess: 49  Error: 15
+                               
+Velocity[2] 76  Accel: 49  Guess: 45  Error: 4
+                                
+Velocity[3] 125  Accel: 47  Guess: 43  Error: 4
+                               
+Velocity[4] 172  Accel: 44  Guess: 40  Error: 4
+                               
+Velocity[5] 216  Accel: 43  Guess: 38  Error: 5
+                               
+Velocity[6] 259  Accel: 39  Guess: 36  Error: 3
+                               
+Velocity[7] 298  Accel: 38  Guess: 34  Error: 4
+                               
+Velocity[8] 336  Accel: 33  Guess: 31  Error: 2
+                               
+Velocity[9] 369  Accel: 35  Guess: 30  Error: 5
+                               
+Velocity[10] 404  Accel: 30  Guess: 28  Error: 2
+                              
+Velocity[11] 434  Accel: 23  Guess: 26  Error: -3
+                             
+Velocity[12] 457  Accel: 32  Guess: 25  Error: 7
+                              
+Velocity[13] 489  Accel: 22  Guess: 23  Error: -1
+                             
+Velocity[14] 511  Accel: 26  Guess: 22  Error: 4
+                              
+Velocity[15] 537  Accel: 24  Guess: 21  Error: 3
+                              
+Velocity[16] 561  Accel: 16  Guess: 19  Error: -3
+                             
+Velocity[17] 577  Accel: 25  Guess: 19  Error: 6
+                              
+Velocity[18] 602  Accel: 14  Guess: 17  Error: -3
+                             
+Velocity[19] 616  Accel: 17  Guess: 16  Error: 1
+                              
+Velocity[20] 633  Accel: 20  Guess: 16  Error: 4
+                              
+Velocity[21] 653  Accel: 11  Guess: 14  Error: -3
+                             
+Velocity[22] 664  Accel: 21  Guess: 14  Error: 7
+                              
+Velocity[23] 685  Accel: 6  Guess: 13  Error: -7
+                              
+Velocity[24] 691  Accel: 19  Guess: 12  Error: 7
+                              
+Velocity[25] 710  Accel: 13  Guess: 11  Error: 2
+                              
+Velocity[26] 723  Accel: 14  Guess: 11  Error: 3
+                              
+Velocity[27] 737  Accel: 7  Guess: 10  Error: -3
+                              
+Velocity[28] 744  Accel: 11  Guess: 10  Error: 1
+                              
+Velocity[29] 755  Accel: 13  Guess: 9  Error: 4
+                               
+Velocity[30] 768  Accel: 4  Guess: 8  Error: -4
+                               
+Velocity[31] 772  Accel: 8  Guess: 8  Error: 0
+                                
+Velocity[32] 780  Accel: 8  Guess: 8  Error: 0
+                                
+Velocity[33] 788  Accel: 17  Guess: 7  Error: 10
+                              
+Velocity[34] 805  Accel: 0  Guess: 6  Error: -6
+                               
+Velocity[35] 805  Accel: 6  Guess: 6  Error: 0
+                                
+Velocity[36] 811  Accel: 12  Guess: 6  Error: 6
+                               
+Velocity[37] 823  Accel: 10  Guess: 5  Error: 5
+                               
+Velocity[38] 833  Accel: -1  Guess: 5  Error: -6
+                              
+Velocity[39] 832  Accel: 3  Guess: 5  Error: -2
+                               
+Velocity[40] 835  Accel: 13  Guess: 5  Error: 8
+                               
+Velocity[41] 848  Accel: 2  Guess: 4  Error: -2
+                               
+Velocity[42] 850  Accel: -5  Guess: 4  Error: -9
+                              
+Velocity[43] 845  Accel: 15  Guess: 4  Error: 11
+                              
+Velocity[44] 860  Accel: 6  Guess: 3  Error: 3
+                                
+Velocity[45] 866  Accel: 1  Guess: 3  Error: -2
+                               
+Velocity[46] 867  Accel: -1  Guess: 3  Error: -4
+                              
+Velocity[47] 866  Accel: 13  Guess: 3  Error: 10
+                              
+Velocity[48] 879  Accel: -4  Guess: 2  Error: -6
+                              
+Velocity[49] 875  Accel: 6  Guess: 3  Error: 3
+                                
+Velocity[50] 881  Accel: 0  Guess: 2  Error: -2
+                               
+Velocity[51] 881  Accel: 6  Guess: 2  Error: 4
+                                
+Velocity[52] 887  Accel: 0  Guess: 2  Error: -2
+                               
+Velocity[53] 887  Accel: 0  Guess: 2  Error: -2
+                               
+Velocity[54] 887  Accel: 12  Guess: 2  Error: 10
+                              
+Velocity[55] 899  Accel: -5  Guess: 1  Error: -6
+                              
+Velocity[56] 894  Accel: 8  Guess: 2  Error: 6
+                                
+Velocity[57] 902  Accel: -5  Guess: 1  Error: -6
+                              
+Velocity[58] 897  Accel: 9  Guess: 1  Error: 8
+                                
+Velocity[59] 906  Accel: -3  Guess: 1  Error: -4
+                              
+Velocity[60] 903  Accel: 2  Guess: 1  Error: 1
+                                
+Velocity[61] 905  Accel: 0  Guess: 1  Error: -1
+                               
+Velocity[62] 905  Accel: 8  Guess: 1  Error: 7
+                                
+Velocity[63] 913  Accel: -7  Guess: 1  Error: -8
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

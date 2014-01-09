@@ -2,16 +2,15 @@
 
 void InterruptSetup()
 {
-    T1CONbits.TCKPS = 1;                // Prescaler 1:8
+    T1CONbits.TCKPS = 2;                // Prescaler 1:64
     T1CONbits.TCS = 0;                  // Clock Source: Internal Clock (Fosc/2)
     T1CONbits.TGATE = 0;                // Disable Gated Timer
     TMR1 = 0;                           // Clear timer register
-    PR1 = 9443;                         // Period.
-                                        // Approximately 2ms
+    PR1 = 11059;                        // 10.24ms
 
     IPC0bits.T1IP = 7;                  // Interrupt Priority (7 = Highest)
     IFS0bits.T1IF = 0;                  // Clear Interrupt Flag
-    IEC0bits.T1IE = 1;                  // Interrupt from Timer 1 ON
+    IEC0bits.T1IE = 0;                  // Interrupt from Timer 1 Starts OFF
 
     T2CONbits.TCKPS = 0;                // Prescaler 1:1
     T2CONbits.T32 = 1;                  // 32bit mode
@@ -37,4 +36,14 @@ unsigned long ReadT2T3Pair()
     TMR3=0;
 
     return (((unsigned long)temp_msb)<<16) + temp_lsb;
+}
+
+void EnableInterrupt()
+{
+    IEC0bits.T1IE = 1;
+}
+
+void DisableInterrupt()
+{
+    IEC0bits.T1IE = 0;
 }

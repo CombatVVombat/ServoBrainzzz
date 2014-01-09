@@ -37,6 +37,7 @@
       <itemPath>Startup.c</itemPath>
       <itemPath>AccelTable.c</itemPath>
       <itemPath>VelocityTest.c</itemPath>
+      <itemPath>BinaryPrinters.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"

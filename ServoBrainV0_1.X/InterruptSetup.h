@@ -12,6 +12,8 @@
 
 void InterruptSetup();
 unsigned long ReadT2T3Pair();
+void EnableInterrupt();
+void DisableInterrupt();
 
 #endif	/* INTERRUPTSETUP_H */
 

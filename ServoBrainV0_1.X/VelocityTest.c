@@ -2,7 +2,7 @@
 
 void VelocityTest()
 {
-    printf("%s", "Running Maximum Velocity Test...\n");
+/*    printf("%s", "Running Maximum Velocity Test...\n");
     directionA = 1;
     directionB = 0;
     PDC2 = 5000;
@@ -39,5 +39,5 @@ void VelocityTest()
     printf("%s", "Velocity Max: ");  printf("%i", velMax);  printf("%s", " counts per sampling period.\n");
     printf("\n");
     printf("%s", "Velocity Min: ");  printf("%i", velMin);  printf("%s", " counts per sampling period.\n");
-    printf("\nCompleted.\n");
+    printf("\nCompleted.\n");*/
 }

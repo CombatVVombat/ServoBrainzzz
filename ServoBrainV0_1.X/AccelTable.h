@@ -8,22 +8,30 @@
 #ifndef ACCELTABLE_H
 #define	ACCELTABLE_H
 
+#include "stdint.h"
 #include "stdio.h"
+#include "Physics.h"
+#include "BinaryPrinters.h"
 
-#define VRANGE 4096
-#define QTY_ENTRIES 128
-#define STEP (VRANGE / QTY_ENTRIES)
-#define Kt 16
-#define Wmax 512
+#define QTY_ENTRIES 64
 
-struct AccelTable
+typedef enum { Positive, Negative } AccelDirection;
+
+typedef struct AccelTable
 {
-signed long Negative[QTY_ENTRIES];
-signed long Positive[QTY_ENTRIES];
-};
+    int32_t Velocity[QTY_ENTRIES];
+    int32_t Negative[QTY_ENTRIES];
+    int32_t Positive[QTY_ENTRIES];
+} AccelTable;
 
-void AccelTableBuildDefault(struct AccelTable *accelTable);
-void DebugAccelTable(const struct AccelTable *const accelTable);
+
+void AccelTableBuildDefault();
+void DebugAccelTable();
+int32_t GetPositiveAccel(const State *state);
+int32_t GetNegativeAccel(const State *state);
+
+extern int32_t (*accelFuncPositive)(const State* state);
+extern int32_t (*accelFuncNegative)(const State* state);
 
 
 

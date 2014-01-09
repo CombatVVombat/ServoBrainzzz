@@ -3,7 +3,7 @@
 void UARTSetup()
 {
     U1MODEbits.BRGH = 1;
-    U1BRG = 81;             // 115200
+    U1BRG = 74;             // 230400
     U1MODEbits.PDSEL = 0;   // 8bits, No Parity
     U1MODEbits.STSEL = 0;   // 1 Stop bit
     U1MODEbits.URXINV = 0;  // Receive Polarity Invert
@@ -24,7 +24,7 @@ void putch(unsigned char byte)
     U1TXREG = byte;
 }
 
-void clearBuffer(struct SerialBuffer *SB)
+void clearBuffer(SerialBuffer *SB)
 {
     for(int i = 0; i < bufferSize; i++)
     {
@@ -33,7 +33,7 @@ void clearBuffer(struct SerialBuffer *SB)
     SB->index = 0;
 }
 
-void receiveSerial(struct SerialBuffer *SB)
+void receiveSerial(SerialBuffer *SB)
 {
     if(U1STAbits.OERR)  // Check Overrun
         printf("Serial Buffer Overrun\n");
@@ -56,7 +56,7 @@ void receiveSerial(struct SerialBuffer *SB)
     }
 }
 
-char compareLastChar(const struct SerialBuffer *const SB, const char* c)
+char compareLastChar(const SerialBuffer *const SB, const char* c)
 {
     if(SB->buffer[SB->index] == *c)
         return 1;

@@ -8,18 +8,29 @@
 #ifndef MOTION_H
 #define	MOTION_H
 
+#include "stdint.h"
 #include "Physics.h"
 #include "AccelTable.h"
 #include "PWMSetup.h"
+#include "BinaryPrinters.h"
 
-extern struct AccelTable accelTable;
+extern struct State currentState;
 
-extern struct State currentState;   // currentstate
-extern struct State targetState;    // final state to get to
-extern struct State goal;           // intermediate state to path towards the target
+#define QtyProfilePoints 64
 
-signed long MoveAbsolute(const struct State *const current, const struct State *const target);    // try to approach the target at maximum acceleration.  Predict the distance required.
-signed long AccelDistance(const struct State *const current, const struct State *const target);
+typedef struct VelocityProfilePoint
+{
+    int32_t time;
+    int32_t v;
+} VelocityProfilePoint;
+
+typedef struct VelocityProfile
+{
+    VelocityProfilePoint dataPoint[QtyProfilePoints];
+    int64_t endPosition;
+} VelocityProfile;
+
+void CalcProfile(VelocityProfile *velocityProfile, const State *current, const State *target);
 
 
 #endif	/* MOTION_H */

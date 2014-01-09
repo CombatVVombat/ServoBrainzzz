@@ -5,6 +5,12 @@ void PortsSetup()
     AD1CON1bits.ADON=0;
     AD2CON1bits.ADON=0;
 
+
+    
+    TRISAbits.TRISA6=0; // debug output
+
+
+
     TRISEbits.TRISE3=0; // output for PWM
     TRISEbits.TRISE2=0; // output, direction A
     TRISKbits.TRISK1=0; // output, direction B

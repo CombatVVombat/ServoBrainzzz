@@ -13,11 +13,11 @@
 
 #define bufferSize 64
 
-struct SerialBuffer
+typedef struct SerialBuffer
 {
     unsigned char index;
     char buffer[bufferSize];
-};
+} SerialBuffer;
 
 void UARTSetup();
 void putch(unsigned char byte);

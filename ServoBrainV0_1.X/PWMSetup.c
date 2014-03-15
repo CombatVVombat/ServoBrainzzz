@@ -1,7 +1,5 @@
 #include "PWMSetup.h"
 
-#define PWM_PERIOD 4096
-
 void PWMSetup()
 {
     PTCONbits.PTEN = 0;     // Disable PWM before changing PTCON values

@@ -45,17 +45,17 @@ OBJECTDIR=build/${CND_CONF}/${IMAGE_TYPE}
 DISTDIR=dist/${CND_CONF}/${IMAGE_TYPE}
 
 # Source Files Quoted if spaced
-SOURCEFILES_QUOTED_IF_SPACED=Main.c Motion.c UARTSetup.c Physics.c EncoderSetup.c InterruptSetup.c OscSetup.c PortsSetup.c PWMSetup.c Startup.c AccelTable.c VelocityTest.c BinaryPrinters.c
+SOURCEFILES_QUOTED_IF_SPACED=Main.c Motion.c UARTSetup.c Physics.c EncoderSetup.c InterruptSetup.c OscSetup.c PortsSetup.c PWMSetup.c Startup.c AccelTable.c VelocityTest.c BinaryPrinters.c VelocityHold.c
 
 # Object Files Quoted if spaced
-OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/Main.o ${OBJECTDIR}/Motion.o ${OBJECTDIR}/UARTSetup.o ${OBJECTDIR}/Physics.o ${OBJECTDIR}/EncoderSetup.o ${OBJECTDIR}/InterruptSetup.o ${OBJECTDIR}/OscSetup.o ${OBJECTDIR}/PortsSetup.o ${OBJECTDIR}/PWMSetup.o ${OBJECTDIR}/Startup.o ${OBJECTDIR}/AccelTable.o ${OBJECTDIR}/VelocityTest.o ${OBJECTDIR}/BinaryPrinters.o
-POSSIBLE_DEPFILES=${OBJECTDIR}/Main.o.d ${OBJECTDIR}/Motion.o.d ${OBJECTDIR}/UARTSetup.o.d ${OBJECTDIR}/Physics.o.d ${OBJECTDIR}/EncoderSetup.o.d ${OBJECTDIR}/InterruptSetup.o.d ${OBJECTDIR}/OscSetup.o.d ${OBJECTDIR}/PortsSetup.o.d ${OBJECTDIR}/PWMSetup.o.d ${OBJECTDIR}/Startup.o.d ${OBJECTDIR}/AccelTable.o.d ${OBJECTDIR}/VelocityTest.o.d ${OBJECTDIR}/BinaryPrinters.o.d
+OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/Main.o ${OBJECTDIR}/Motion.o ${OBJECTDIR}/UARTSetup.o ${OBJECTDIR}/Physics.o ${OBJECTDIR}/EncoderSetup.o ${OBJECTDIR}/InterruptSetup.o ${OBJECTDIR}/OscSetup.o ${OBJECTDIR}/PortsSetup.o ${OBJECTDIR}/PWMSetup.o ${OBJECTDIR}/Startup.o ${OBJECTDIR}/AccelTable.o ${OBJECTDIR}/VelocityTest.o ${OBJECTDIR}/BinaryPrinters.o ${OBJECTDIR}/VelocityHold.o
+POSSIBLE_DEPFILES=${OBJECTDIR}/Main.o.d ${OBJECTDIR}/Motion.o.d ${OBJECTDIR}/UARTSetup.o.d ${OBJECTDIR}/Physics.o.d ${OBJECTDIR}/EncoderSetup.o.d ${OBJECTDIR}/InterruptSetup.o.d ${OBJECTDIR}/OscSetup.o.d ${OBJECTDIR}/PortsSetup.o.d ${OBJECTDIR}/PWMSetup.o.d ${OBJECTDIR}/Startup.o.d ${OBJECTDIR}/AccelTable.o.d ${OBJECTDIR}/VelocityTest.o.d ${OBJECTDIR}/BinaryPrinters.o.d ${OBJECTDIR}/VelocityHold.o.d
 
 # Object Files
-OBJECTFILES=${OBJECTDIR}/Main.o ${OBJECTDIR}/Motion.o ${OBJECTDIR}/UARTSetup.o ${OBJECTDIR}/Physics.o ${OBJECTDIR}/EncoderSetup.o ${OBJECTDIR}/InterruptSetup.o ${OBJECTDIR}/OscSetup.o ${OBJECTDIR}/PortsSetup.o ${OBJECTDIR}/PWMSetup.o ${OBJECTDIR}/Startup.o ${OBJECTDIR}/AccelTable.o ${OBJECTDIR}/VelocityTest.o ${OBJECTDIR}/BinaryPrinters.o
+OBJECTFILES=${OBJECTDIR}/Main.o ${OBJECTDIR}/Motion.o ${OBJECTDIR}/UARTSetup.o ${OBJECTDIR}/Physics.o ${OBJECTDIR}/EncoderSetup.o ${OBJECTDIR}/InterruptSetup.o ${OBJECTDIR}/OscSetup.o ${OBJECTDIR}/PortsSetup.o ${OBJECTDIR}/PWMSetup.o ${OBJECTDIR}/Startup.o ${OBJECTDIR}/AccelTable.o ${OBJECTDIR}/VelocityTest.o ${OBJECTDIR}/BinaryPrinters.o ${OBJECTDIR}/VelocityHold.o
 
 # Source Files
-SOURCEFILES=Main.c Motion.c UARTSetup.c Physics.c EncoderSetup.c InterruptSetup.c OscSetup.c PortsSetup.c PWMSetup.c Startup.c AccelTable.c VelocityTest.c BinaryPrinters.c
+SOURCEFILES=Main.c Motion.c UARTSetup.c Physics.c EncoderSetup.c InterruptSetup.c OscSetup.c PortsSetup.c PWMSetup.c Startup.c AccelTable.c VelocityTest.c BinaryPrinters.c VelocityHold.c
 
 
 CFLAGS=
@@ -170,6 +170,13 @@ ${OBJECTDIR}/BinaryPrinters.o: BinaryPrinters.c  nbproject/Makefile-${CND_CONF}.
 	${MP_CC} $(MP_EXTRA_CC_PRE)  BinaryPrinters.c  -o ${OBJECTDIR}/BinaryPrinters.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/BinaryPrinters.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1  -omf=elf -O0 -msmart-io=1 -Wall -msfr-warn=off -std=gnu99
 	@${FIXDEPS} "${OBJECTDIR}/BinaryPrinters.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
+${OBJECTDIR}/VelocityHold.o: VelocityHold.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} ${OBJECTDIR} 
+	@${RM} ${OBJECTDIR}/VelocityHold.o.d 
+	@${RM} ${OBJECTDIR}/VelocityHold.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE)  VelocityHold.c  -o ${OBJECTDIR}/VelocityHold.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/VelocityHold.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1  -omf=elf -O0 -msmart-io=1 -Wall -msfr-warn=off -std=gnu99
+	@${FIXDEPS} "${OBJECTDIR}/VelocityHold.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
+	
 else
 ${OBJECTDIR}/Main.o: Main.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR} 
@@ -261,6 +268,13 @@ ${OBJECTDIR}/BinaryPrinters.o: BinaryPrinters.c  nbproject/Makefile-${CND_CONF}.
 	@${RM} ${OBJECTDIR}/BinaryPrinters.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  BinaryPrinters.c  -o ${OBJECTDIR}/BinaryPrinters.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/BinaryPrinters.o.d"      -g -omf=elf -O0 -msmart-io=1 -Wall -msfr-warn=off -std=gnu99
 	@${FIXDEPS} "${OBJECTDIR}/BinaryPrinters.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
+	
+${OBJECTDIR}/VelocityHold.o: VelocityHold.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} ${OBJECTDIR} 
+	@${RM} ${OBJECTDIR}/VelocityHold.o.d 
+	@${RM} ${OBJECTDIR}/VelocityHold.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE)  VelocityHold.c  -o ${OBJECTDIR}/VelocityHold.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/VelocityHold.o.d"      -g -omf=elf -O0 -msmart-io=1 -Wall -msfr-warn=off -std=gnu99
+	@${FIXDEPS} "${OBJECTDIR}/VelocityHold.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
 endif
 

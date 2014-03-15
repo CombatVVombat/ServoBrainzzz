@@ -11,6 +11,7 @@
 #include "p33EP512MU814.h"
 #include "stdio.h"
 
+#define PWM_PERIOD 4096
 #define directionA LATEbits.LATE2
 #define directionB LATKbits.LATK1
 

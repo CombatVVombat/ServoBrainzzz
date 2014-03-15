@@ -4,8 +4,9 @@
 #include "Startup.h"
 #include "Physics.h"
 #include "ProgramState.h"
-#include "VelocityTest.h"
 #include "Motion.h"
+#include "VelocityHold.h"
+
 
 /// Configuration Bits ///
 _FGS( GWRP_OFF & GSS_OFF & GSSK_OFF);
@@ -33,6 +34,13 @@ void __attribute__((__interrupt__, no_auto_psv)) _T1Interrupt(void)
 
     currentState.s = readPosition();
     currentState.v = readVelocity();     // Only do this once per dt
+
+    if(elapsedFrame > 128)
+    {
+        targetState.v *= -1;
+        elapsedFrame=0;
+    }
+    VelocityHold(targetState.v, currentState.v);
 }
 
 int main(int argc, char** argv)
@@ -40,12 +48,9 @@ int main(int argc, char** argv)
     Startup();
     AccelTableBuildDefault();
 
-    currentState.s = 0;
-    currentState.v = 134217728;
-    targetState.s = 268435456;
-    targetState.v = 0;
+    targetState.v = 2048;
 
-    CalcProfile(&velocityProfile, &currentState, &targetState);
+    //CalcProfile(&velocityProfile, &currentState, &targetState);
 
     EnableInterrupt();
     

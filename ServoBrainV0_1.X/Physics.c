@@ -12,8 +12,7 @@ int32_t readPosition()
 int32_t readVelocity()
 {
     ///// Velocity Returned as Q<32,0> //////
-    int32_t velocity = VEL1CNT;
-    return velocity;
+    return (int16_t)VEL1CNT;
 }
 
 void integrate(State *initial, int32_t (*accelFunc)(const State *state), const int16_t dt)

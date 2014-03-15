@@ -17,6 +17,8 @@
       <itemPath>Motion.h</itemPath>
       <itemPath>AccelTable.h</itemPath>
       <itemPath>BinaryPrinters.h</itemPath>
+      <itemPath>PIDParams.h</itemPath>
+      <itemPath>VelocityHold.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -38,6 +40,7 @@
       <itemPath>AccelTable.c</itemPath>
       <itemPath>VelocityTest.c</itemPath>
       <itemPath>BinaryPrinters.c</itemPath>
+      <itemPath>VelocityHold.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -252,6 +255,7 @@
         <property key="UART 3" value="true"/>
         <property key="UART 4" value="true"/>
         <property key="USB" value="true"/>
+        <property key="firmware.download.all" value="false"/>
         <property key="hwtoolclock.frcindebug" value="false"/>
         <property key="memories.aux" value="false"/>
         <property key="memories.bootflash" value="true"/>

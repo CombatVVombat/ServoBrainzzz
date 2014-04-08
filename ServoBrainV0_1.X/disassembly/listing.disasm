@@ -1,0 +1,2050 @@
+Disassembly Listing for ServoBrainV0_1
+Generated From:
+D:/Programming/LocalGit/ServoBrainzzz/ServoBrainV0_1.X/dist/default/production/ServoBrainV0_1.X.production.elf
+Apr 2, 2014 8:33:46 PM
+
+---  D:/Programming/LocalGit/ServoBrainzzz/ServoBrainV0_1.X/VelocityTest.c  -----------------------------
+1:                 #include "VelocityTest.h"
+2:                 
+3:                 void VelocityTest()
+4:                 {
+002AF8  FA0000     LNK #0x0
+5:                 /*    printf("%s", "Running Maximum Velocity Test...\n");
+6:                     directionA = 1;
+7:                     directionB = 0;
+8:                     PDC2 = 5000;
+9:                     __delay32(50000000);
+10:                
+11:                    unsigned long velCounter = VEL1CNT;
+12:                    velCounter = 0;
+13:                    for(unsigned short i = 0; i < 128; i++)
+14:                    {
+15:                        while(!IFS0bits.T1IF) { __delay32(1); }     // wait until timer overflows
+16:                        velCounter += VEL1CNT;
+17:                        IFS0bits.T1IF = 0;
+18:                    }
+19:                    PDC2 = 0;
+20:                    signed int velMax = velCounter / 128;
+21:                    __delay32(500000);
+22:                
+23:                    directionA = 0;
+24:                    directionB = 1;
+25:                    PDC2 = 5000;
+26:                    __delay32(50000000);
+27:                
+28:                    velCounter = VEL1CNT;
+29:                    velCounter = 0;
+30:                    for(unsigned short i = 0; i < 128; i++)
+31:                    {
+32:                        while(!IFS0bits.T1IF) { __delay32(1); }
+33:                        velCounter += VEL1CNT;
+34:                        IFS0bits.T1IF = 0;
+35:                    }
+36:                    PDC2 = 0;
+37:                    signed int velMin = velCounter / 128;
+38:                
+39:                    printf("%s", "Velocity Max: ");  printf("%i", velMax);  printf("%s", " counts per sampling period.\n");
+40:                    printf("\n");
+41:                    printf("%s", "Velocity Min: ");  printf("%i", velMin);  printf("%s", " counts per sampling period.\n");
+42:                    printf("\nCompleted.\n");*/
+43:                }
+002AFA  FA8000     ULNK
+002AFC  060000     RETURN
+---  D:/Programming/LocalGit/ServoBrainzzz/ServoBrainV0_1.X/VelocityHold.c  -----------------------------
+1:                 #include "VelocityHold.h"
+2:                 
+3:                 PIDParams VHoldPID = { .P=700, .I=128, .D=0};
+4:                 
+5:                 void VelocityHold(int32_t vTarget, int32_t vCurrent)
+6:                 {
+0027F8  FA000A     LNK #0xA
+0027FA  781F88     MOV W8, [W15++]
+0027FC  980710     MOV W0, [W14+2]
+0027FE  980721     MOV W1, [W14+4]
+002800  980732     MOV W2, [W14+6]
+002802  980743     MOV W3, [W14+8]
+7:                     VHoldPID.error = (vTarget - vCurrent);                      //Q<16,0>
+002804  90011E     MOV [W14+2], W2
+002806  9001AE     MOV [W14+4], W3
+002808  90003E     MOV [W14+6], W0
+00280A  9000CE     MOV [W14+8], W1
+00280C  510000     SUB W2, W0, W0
+00280E  598081     SUBB W3, W1, W1
+002810  88ACE0     MOV W0, 0x159C
+002812  88ACF1     MOV W1, 0x159E
+8:                     VHoldPID.Pvalue = (VHoldPID.error * VHoldPID.P);            //Q<16,0>*Q<8,8> = Q<24,8>
+002814  80ACE2     MOV 0x159C, W2
+002816  80ACF3     MOV 0x159E, W3
+002818  80ACB0     MOV VHoldPID, W0
+00281A  DE80CF     ASR W0, #15, W1
+00281C  B81A80     MUL.UU W3, W0, W4
+00281E  B80B82     MUL.UU W1, W2, W6
+002820  780286     MOV W6, W5
+002822  420205     ADD W4, W5, W4
+002824  B81000     MUL.UU W2, W0, W0
+002826  420201     ADD W4, W1, W4
+002828  780084     MOV W4, W1
+00282A  88AD20     MOV W0, 0x15A4
+00282C  88AD31     MOV W1, 0x15A6
+9:                     VHoldPID.Iaccum += (VHoldPID.error * VHoldPID.I);
+00282E  80AD06     MOV 0x15A0, W6
+002830  80AD17     MOV 0x15A2, W7
+002832  80ACE2     MOV 0x159C, W2
+002834  80ACF3     MOV 0x159E, W3
+002836  80ACC0     MOV 0x1598, W0
+002838  DE80CF     ASR W0, #15, W1
+00283A  B81A80     MUL.UU W3, W0, W4
+00283C  B80C82     MUL.UU W1, W2, W8
+00283E  780288     MOV W8, W5
+002840  420205     ADD W4, W5, W4
+002842  B81000     MUL.UU W2, W0, W0
+002844  420201     ADD W4, W1, W4
+002846  780084     MOV W4, W1
+002848  400006     ADD W0, W6, W0
+00284A  488087     ADDC W1, W7, W1
+00284C  88AD00     MOV W0, 0x15A0
+00284E  88AD11     MOV W1, 0x15A2
+10:                    VHoldPID.Dvalue = 0;
+002850  B80060     MUL.UU W0, #0, W0
+002852  88AD40     MOV W0, 0x15A8
+002854  88AD51     MOV W1, 0x15AA
+11:                
+12:                    int16_t command = ((VHoldPID.Pvalue + VHoldPID.Iaccum + VHoldPID.Dvalue)>>8);
+002856  80AD22     MOV 0x15A4, W2
+002858  80AD33     MOV 0x15A6, W3
+00285A  80AD00     MOV 0x15A0, W0
+00285C  80AD11     MOV 0x15A2, W1
+00285E  400102     ADD W0, W2, W2
+002860  488183     ADDC W1, W3, W3
+002862  80AD40     MOV 0x15A8, W0
+002864  80AD51     MOV 0x15AA, W1
+002866  400002     ADD W0, W2, W0
+002868  488083     ADDC W1, W3, W1
+00286A  DD0948     SL W1, #8, W2
+00286C  DE0048     LSR W0, #8, W0
+00286E  710000     IOR W2, W0, W0
+002870  DE88C8     ASR W1, #8, W1
+002872  780F00     MOV W0, [W14]
+13:                
+14:                    printf("%li", vCurrent); printf("  ");
+002874  90003E     MOV [W14+6], W0
+002876  9000CE     MOV [W14+8], W1
+002878  BE9F80     MOV.D W0, [W15++]
+00287A  29E880     MOV #0x9E88, W0
+00287C  781F80     MOV W0, [W15++]
+00287E  07EFE6     RCALL 0x84C
+002880  5787E6     SUB W15, #0x6, W15
+002882  29E8C0     MOV #0x9E8C, W0
+002884  781F80     MOV W0, [W15++]
+002886  07EFE2     RCALL 0x84C
+002888  E9878F     DEC2 W15, W15
+15:                    printf("%li", VHoldPID.error); printf("\n");
+00288A  80ACE0     MOV 0x159C, W0
+00288C  80ACF1     MOV 0x159E, W1
+00288E  BE9F80     MOV.D W0, [W15++]
+002890  29E880     MOV #0x9E88, W0
+002892  781F80     MOV W0, [W15++]
+002894  07EFDB     RCALL 0x84C
+002896  5787E6     SUB W15, #0x6, W15
+002898  2000A0     MOV #0xA, W0
+00289A  07EFD3     RCALL 0x842
+16:                
+17:                    if(command >= 0)
+00289C  78001E     MOV [W14], W0
+00289E  500FE0     SUB W0, #0x0, [W15]
+0028A0  350003     BRA LT, 0x28A8
+18:                    {
+19:                        // clockwise, viewed from encoder side
+20:                        directionA = 1;
+0028A2  A84E44     BSET LATE, #2
+21:                        directionB = 0;
+0028A4  A92E94     BCLR LATK, #1
+0028A6  370003     BRA 0x28AE
+22:                    }
+23:                    else
+24:                    {
+25:                        directionA = 0;
+0028A8  A94E44     BCLR LATE, #2
+26:                        directionB = 1;
+0028AA  A82E94     BSET LATK, #1
+27:                        command *= -1;
+0028AC  EA0F1E     NEG [W14], [W14]
+28:                    }
+29:                    PDC2 = command;
+0028AE  78001E     MOV [W14], W0
+0028B0  886230     MOV W0, PDC2
+30:                }
+0028B2  78044F     MOV [--W15], W8
+0028B4  FA8000     ULNK
+0028B6  060000     RETURN
+---  D:/Programming/LocalGit/ServoBrainzzz/ServoBrainV0_1.X/UARTSetup.c  --------------------------------
+1:                 #include "UARTSetup.h"
+2:                 
+3:                 void UARTSetup()
+4:                 {
+00260A  FA0000     LNK #0x0
+5:                     U1MODEbits.BRGH = 1;
+00260C  A86220     BSET U1MODE, #3
+6:                     U1BRG = 74;             // 230400
+00260E  2004A0     MOV #0x4A, W0
+002610  881140     MOV W0, U1BRG
+7:                     U1MODEbits.PDSEL = 0;   // 8bits, No Parity
+002612  801101     MOV U1MODE, W1
+002614  2FFF90     MOV #0xFFF9, W0
+002616  608000     AND W1, W0, W0
+002618  881100     MOV W0, U1MODE
+8:                     U1MODEbits.STSEL = 0;   // 1 Stop bit
+00261A  A90220     BCLR U1MODE, #0
+9:                     U1MODEbits.URXINV = 0;  // Receive Polarity Invert
+00261C  A98220     BCLR U1MODE, #4
+10:                    U1MODEbits.ABAUD = 0;   // AutoBaud OFF
+00261E  A9A220     BCLR U1MODE, #5
+11:                    U1MODEbits.LPBACK = 0;  // Loopback disabled
+002620  A9C220     BCLR U1MODE, #6
+12:                    U1MODEbits.WAKE = 0;    // Wake-up disabled
+002622  A9E220     BCLR U1MODE, #7
+13:                
+14:                    U1STAbits.UTXINV = 0;   // Transmit Polarity Invert
+002624  A9C223     BCLR 0x223, #6
+15:                    U1STAbits.ADDEN = 0;    // Address Mode disabled
+002626  A9A222     BCLR U1STA, #5
+16:                
+17:                    U1MODEbits.UARTEN = 1;  // Enable UART1
+002628  A8E221     BSET 0x221, #7
+18:                    U1STAbits.UTXEN = 1;    // Transmit Enabled
+00262A  A84223     BSET 0x223, #2
+19:                }
+00262C  FA8000     ULNK
+00262E  060000     RETURN
+20:                
+21:                void putch(unsigned char byte)
+22:                {
+002630  FA0002     LNK #0x2
+002632  784F00     MOV.B W0, [W14]
+23:                    while(!U1STAbits.TRMT);
+002634  000000     NOP
+002636  801111     MOV U1STA, W1
+002638  201000     MOV #0x100, W0
+00263A  608000     AND W1, W0, W0
+00263C  500FE0     SUB W0, #0x0, [W15]
+00263E  32FFFB     BRA Z, 0x2636
+24:                    U1TXREG = byte;
+002640  78409E     MOV.B [W14], W1
+002642  FB8001     ZE W1, W0
+002644  881120     MOV W0, U1TXREG
+25:                }
+002646  FA8000     ULNK
+002648  060000     RETURN
+26:                
+27:                void clearBuffer(SerialBuffer *SB)
+28:                {
+00264A  FA0004     LNK #0x4
+00264C  980710     MOV W0, [W14+2]
+29:                    for(int i = 0; i < bufferSize; i++)
+00264E  EB0000     CLR W0
+002650  780F00     MOV W0, [W14]
+002652  370006     BRA 0x2660
+00265E  E80F1E     INC [W14], [W14]
+002660  2003F0     MOV #0x3F, W0
+002662  78009E     MOV [W14], W1
+002664  508F80     SUB W1, W0, [W15]
+002666  34FFF6     BRA LE, 0x2654
+30:                    {
+31:                        SB->buffer[i] = 0;
+002654  90001E     MOV [W14+2], W0
+002656  40001E     ADD W0, [W14], W0
+002658  E80080     INC W0, W1
+00265A  EB4000     CLR.B W0
+00265C  784880     MOV.B W0, [W1]
+32:                    }
+33:                    SB->index = 0;
+002668  90009E     MOV [W14+2], W1
+00266A  EB4000     CLR.B W0
+00266C  784880     MOV.B W0, [W1]
+34:                }
+00266E  FA8000     ULNK
+002670  060000     RETURN
+35:                
+36:                void receiveSerial(SerialBuffer *SB)
+37:                {
+002672  FA0002     LNK #0x2
+002674  780F00     MOV W0, [W14]
+38:                    if(U1STAbits.OERR)  // Check Overrun
+002676  801110     MOV U1STA, W0
+002678  600062     AND W0, #0x2, W0
+00267A  500FE0     SUB W0, #0x0, [W15]
+00267C  320002     BRA Z, 0x2682
+39:                        printf("Serial Buffer Overrun\n");
+00267E  29E1A0     MOV #0x9E1A, W0
+002680  07F0D4     RCALL 0x82A
+40:                    if(U1STAbits.FERR)
+002682  801110     MOV U1STA, W0
+002684  600064     AND W0, #0x4, W0
+002686  500FE0     SUB W0, #0x0, [W15]
+002688  320002     BRA Z, 0x268E
+41:                        printf("Framing Error\n");
+00268A  29E300     MOV #0x9E30, W0
+00268C  07F0CE     RCALL 0x82A
+42:                    if(U1STAbits.PERR)
+00268E  801110     MOV U1STA, W0
+002690  600068     AND W0, #0x8, W0
+002692  500FE0     SUB W0, #0x0, [W15]
+002694  320002     BRA Z, 0x269A
+43:                        printf("Parity Error\n");
+002696  29E3E0     MOV #0x9E3E, W0
+002698  07F0C8     RCALL 0x82A
+44:                    if(U1STAbits.URXDA)
+00269A  801110     MOV U1STA, W0
+00269C  600061     AND W0, #0x1, W0
+00269E  500FE0     SUB W0, #0x0, [W15]
+0026A0  32001F     BRA Z, 0x26E0
+45:                    {
+46:                        if(SB->index < (bufferSize-1))               // Check buffer is not full
+0026A2  78001E     MOV [W14], W0
+0026A4  784090     MOV.B [W0], W1
+0026A6  B3C3E0     MOV #0x3E, W0
+0026A8  50CF80     SUB.B W1, W0, [W15]
+0026AA  3E0018     BRA GTU, 0x26DC
+47:                        {
+48:                            SB->index++;
+0026AC  78001E     MOV [W14], W0
+0026AE  784010     MOV.B [W0], W0
+0026B0  E84000     INC.B W0, W0
+0026B2  78009E     MOV [W14], W1
+0026B4  784880     MOV.B W0, [W1]
+49:                            SB->buffer[SB->index]= U1RXREG;         // Take character from RX line into buffer
+0026B6  78001E     MOV [W14], W0
+0026B8  784010     MOV.B [W0], W0
+0026BA  FB8080     ZE W0, W1
+0026BC  801130     MOV U1RXREG, W0
+0026BE  784000     MOV.B W0, W0
+0026C0  78011E     MOV [W14], W2
+0026C2  410081     ADD W2, W1, W1
+0026C4  E80081     INC W1, W1
+0026C6  784880     MOV.B W0, [W1]
+50:                            printf("%c", SB->buffer[SB->index]);    // Echo to console
+0026C8  78001E     MOV [W14], W0
+0026CA  784010     MOV.B [W0], W0
+0026CC  FB8000     ZE W0, W0
+0026CE  78009E     MOV [W14], W1
+0026D0  408000     ADD W1, W0, W0
+0026D2  E80000     INC W0, W0
+0026D4  784010     MOV.B [W0], W0
+0026D6  FB0000     SE W0, W0
+0026D8  07F0B4     RCALL 0x842
+0026DA  370002     BRA 0x26E0
+51:                        }
+52:                        else
+53:                        {
+54:                            clearBuffer(SB);
+0026DC  78001E     MOV [W14], W0
+0026DE  07FFB5     RCALL clearBuffer
+55:                        }
+56:                    }
+57:                }
+0026E0  FA8000     ULNK
+0026E2  060000     RETURN
+58:                
+59:                char compareLastChar(const SerialBuffer *const SB, const char* c)
+60:                {
+0026E4  FA0004     LNK #0x4
+0026E6  780F00     MOV W0, [W14]
+0026E8  980711     MOV W1, [W14+2]
+61:                    if(SB->buffer[SB->index] == *c)
+0026EA  78001E     MOV [W14], W0
+0026EC  784010     MOV.B [W0], W0
+0026EE  FB8000     ZE W0, W0
+0026F0  78009E     MOV [W14], W1
+0026F2  408000     ADD W1, W0, W0
+0026F4  E80000     INC W0, W0
+0026F6  784090     MOV.B [W0], W1
+0026F8  90001E     MOV [W14+2], W0
+0026FA  784010     MOV.B [W0], W0
+0026FC  50CF80     SUB.B W1, W0, [W15]
+0026FE  3A0002     BRA NZ, 0x2704
+62:                        return 1;
+002700  B3C010     MOV #0x1, W0
+002702  370001     BRA 0x2706
+63:                    else
+64:                        return 0;
+002704  EB4000     CLR.B W0
+65:                }
+002706  FA8000     ULNK
+002708  060000     RETURN
+---  D:/Programming/LocalGit/ServoBrainzzz/ServoBrainV0_1.X/Startup.c  ----------------------------------
+1:                 #include "Startup.h"
+2:                 #include "BinaryPrinters.h"
+3:                 
+4:                 void Startup()
+5:                 {
+002ADC  FA0000     LNK #0x0
+6:                     OscillatorSetup();
+002ADE  07FF99     RCALL OscillatorSetup
+7:                     InterruptSetup();
+002AE0  07FEEB     RCALL InterruptSetup
+8:                     PortsSetup();
+002AE2  07FF67     RCALL PortsSetup
+9:                     UARTSetup();
+002AE4  07FD92     RCALL UARTSetup
+10:                    Encoder1Setup();
+002AE6  07FFE9     RCALL Encoder1Setup
+11:                    PWMSetup();
+002AE8  07FF28     RCALL PWMSetup
+12:                
+13:                    T1CONbits.TON = 1;                  // Timer ON
+002AEA  A8E105     BSET 0x105, #7
+14:                    T2CONbits.TON = 1;                  // Timer2/3 ON
+002AEC  A8E111     BSET 0x111, #7
+15:                    IEC0bits.T1IE = 1;                  // Enable
+002AEE  A86820     BSET IEC0, #3
+16:                    printf("Welcome -- ServoBrain V0.1\n\n");
+002AF0  29E4C0     MOV #0x9E4C, W0
+002AF2  07EE9B     RCALL 0x82A
+17:                }
+002AF4  FA8000     ULNK
+002AF6  060000     RETURN
+---  D:/Programming/LocalGit/ServoBrainzzz/ServoBrainV0_1.X/PushButton.c  -------------------------------
+1:                 #include "PushButton.h"
+2:                 
+3:                 void UpdateButton(const unsigned portToCheck, PushButton* pushButton)
+4:                 {
+002A4E  FA0004     LNK #0x4
+002A50  780F00     MOV W0, [W14]
+002A52  980711     MOV W1, [W14+2]
+5:                     pushButton->lastState = pushButton->state;
+002A54  90001E     MOV [W14+2], W0
+002A56  780010     MOV [W0], W0
+002A58  604061     AND.B W0, #0x1, W0
+002A5A  90009E     MOV [W14+2], W1
+002A5C  FB8000     ZE W0, W0
+002A5E  600061     AND W0, #0x1, W0
+002A60  400000     ADD W0, W0, W0
+002A62  780191     MOV [W1], W3
+002A64  2FFFD2     MOV #0xFFFD, W2
+002A66  618102     AND W3, W2, W2
+002A68  710000     IOR W2, W0, W0
+002A6A  780880     MOV W0, [W1]
+6:                     pushButton->state = portToCheck;
+002A6C  78001E     MOV [W14], W0
+002A6E  784000     MOV.B W0, W0
+002A70  604061     AND.B W0, #0x1, W0
+002A72  90009E     MOV [W14+2], W1
+002A74  FB8000     ZE W0, W0
+002A76  600061     AND W0, #0x1, W0
+002A78  780191     MOV [W1], W3
+002A7A  2FFFE2     MOV #0xFFFE, W2
+002A7C  618102     AND W3, W2, W2
+002A7E  710000     IOR W2, W0, W0
+002A80  780880     MOV W0, [W1]
+7:                 }
+002A82  FA8000     ULNK
+002A84  060000     RETURN
+---  D:/Programming/LocalGit/ServoBrainzzz/ServoBrainV0_1.X/PortsSetup.c  -------------------------------
+1:                 #include "PortsSetup.h"
+2:                 
+3:                 void PortsSetup()
+4:                 {
+0029B2  FA0000     LNK #0x0
+5:                     AD1CON1bits.ADON=0;
+0029B4  A9E321     BCLR 0x321, #7
+6:                     AD2CON1bits.ADON=0;
+0029B6  A9E361     BCLR 0x361, #7
+7:                 
+8:                     TRISAbits.TRISA6=0; // debug output
+0029B8  A9CE00     BCLR TRISA, #6
+9:                 
+10:                    TRISEbits.TRISE3=0; // output for PWM
+0029BA  A96E40     BCLR TRISE, #3
+11:                    TRISEbits.TRISE2=0; // output, direction A
+0029BC  A94E40     BCLR TRISE, #2
+12:                    TRISKbits.TRISK1=0; // output, direction B
+0029BE  A92E90     BCLR TRISK, #1
+13:                    TRISHbits.TRISH9=1; // pushbutton A
+0029C0  A82E71     BSET 0xE71, #1
+14:                    TRISHbits.TRISH8=1; // pushbutton B
+0029C2  A80E71     BSET 0xE71, #0
+15:                
+16:                    IOCON2bits.PENH = 1;    // as PWM port
+0029C4  A8EC43     BSET 0xC43, #7
+17:                    IOCON2bits.PENL = 0;    // as I/O
+0029C6  A9CC43     BCLR 0xC43, #6
+18:                    IOCON2bits.PMOD = 1;    // independent PWM mode
+0029C8  806211     MOV IOCON2, W1
+0029CA  2F3FF0     MOV #0xF3FF, W0
+0029CC  608080     AND W1, W0, W1
+0029CE  204000     MOV #0x400, W0
+0029D0  708000     IOR W1, W0, W0
+0029D2  886210     MOV W0, IOCON2
+19:                
+20:                    RPINR18bits.U1RXR = IN_PIN_PPS_RP98;    // UART1 from Max3232->Pic
+0029D4  803621     MOV RPINR18, W1
+0029D6  2FF800     MOV #0xFF80, W0
+0029D8  608080     AND W1, W0, W1
+0029DA  200620     MOV #0x62, W0
+0029DC  708000     IOR W1, W0, W0
+0029DE  883620     MOV W0, RPINR18
+21:                    OUT_PIN_PPS_RP104 = OUT_FN_PPS_U1TX;    // UART1 from Pic->Max3232
+0029E0  8034B1     MOV RPOR11, W1
+0029E2  2FFC00     MOV #0xFFC0, W0
+0029E4  608000     AND W1, W0, W0
+0029E6  A00000     BSET W0, #0
+0029E8  8834B0     MOV W0, RPOR11
+22:                
+23:                    RPINR14bits.QEA1R = IN_PIN_PPS_RP125;      // QEI1 A
+0029EA  8035E1     MOV RPINR14, W1
+0029EC  2FF800     MOV #0xFF80, W0
+0029EE  608080     AND W1, W0, W1
+0029F0  2007D0     MOV #0x7D, W0
+0029F2  708000     IOR W1, W0, W0
+0029F4  8835E0     MOV W0, RPINR14
+24:                    RPINR14bits.QEB1R = IN_PIN_PPS_RP124;      // QEI1 B
+0029F6  8035E1     MOV RPINR14, W1
+0029F8  280FF0     MOV #0x80FF, W0
+0029FA  608080     AND W1, W0, W1
+0029FC  27C000     MOV #0x7C00, W0
+0029FE  708000     IOR W1, W0, W0
+002A00  8835E0     MOV W0, RPINR14
+25:                    RPINR17bits.INDX2R = IN_PIN_PPS_RP126;     // QEI1 Index
+002A02  803611     MOV RPINR17, W1
+002A04  2FF800     MOV #0xFF80, W0
+002A06  608080     AND W1, W0, W1
+002A08  2007E0     MOV #0x7E, W0
+002A0A  708000     IOR W1, W0, W0
+002A0C  883610     MOV W0, RPINR17
+26:                }
+002A0E  FA8000     ULNK
+002A10  060000     RETURN
+---  D:/Programming/LocalGit/ServoBrainzzz/ServoBrainV0_1.X/Physics.c  ----------------------------------
+1:                 #include "Physics.h"
+2:                 
+3:                 int32_t readPosition()
+4:                 {
+00270A  FA0004     LNK #0x4
+5:                     ///// Position Returned as Q<32,0> (The encoder cannot return fractional counts)
+6:                     int32_t position;
+7:                     position = POS1CNTL;
+00270C  800E30     MOV POS1CNTL, W0
+00270E  200001     MOV #0x0, W1
+002710  BE8F00     MOV.D W0, [W14]
+8:                     position += ((int32_t)(POS1CNTH)) << 16;
+002712  800E40     MOV POS1CNTH, W0
+002714  200001     MOV #0x0, W1
+002716  DD00C0     SL W0, #0, W1
+002718  200000     MOV #0x0, W0
+00271A  400F1E     ADD W0, [W14], [W14]
+00271C  48975E     ADDC W1, [++W14], [W14--]
+9:                     return position;
+00271E  BE001E     MOV.D [W14], W0
+10:                }
+002720  FA8000     ULNK
+002722  060000     RETURN
+11:                
+12:                int32_t readVelocity()
+13:                {
+002724  FA0000     LNK #0x0
+14:                    ///// Velocity Returned as Q<32,0> //////
+15:                    return (int16_t)VEL1CNT;
+002726  800E60     MOV VEL1CNT, W0
+002728  DE80CF     ASR W0, #15, W1
+16:                }
+00272A  FA8000     ULNK
+00272C  060000     RETURN
+17:                
+18:                void integrate(State *initial, int32_t (*accelFunc)(const State *state), const int16_t dt)
+19:                {
+00272E  FA0016     LNK #0x16
+002730  BE9F88     MOV.D W8, [W15++]
+002732  BE9F8A     MOV.D W10, [W15++]
+002734  BE9F8C     MOV.D W12, [W15++]
+002736  780F00     MOV W0, [W14]
+002738  980711     MOV W1, [W14+2]
+00273A  980722     MOV W2, [W14+4]
+20:                    // state.s stored as Q<48,16>
+21:                    // state.v stored as Q<16,16>
+22:                    static State b;     // must be static to prevent possible need of 32bit pointer
+23:                    b.s = initial->s;
+00273C  78001E     MOV [W14], W0
+00273E  BE0150     MOV.D [++W0], W2
+002740  BE0040     MOV.D [--W0], W0
+002742  215AC4     MOV #0x15AC, W4
+002744  BE9A00     MOV.D W0, [W4++]
+002746  BE9202     MOV.D W2, [W4--]
+24:                    b.v = initial->v;
+002748  78001E     MOV [W14], W0
+00274A  9000D0     MOV [W0+10], W1
+00274C  900040     MOV [W0+8], W0
+00274E  88ADA0     MOV W0, 0x15B4
+002750  88ADB1     MOV W1, 0x15B6
+25:                
+26:                    b.v += (int32_t)(( (int64_t)accelFunc(&b) * dt) >> 16);
+002752  80ADAC     MOV 0x15B4, W12
+002754  80ADBD     MOV 0x15B6, W13
+002756  90009E     MOV [W14+2], W1
+002758  215AC0     MOV #0x15AC, W0
+00275A  010001     CALL W1
+00275C  BE0100     MOV.D W0, W2
+00275E  980732     MOV W2, [W14+6]
+002760  980743     MOV W3, [W14+8]
+002762  DE884F     ASR W1, #15, W0
+002764  780180     MOV W0, W3
+002766  980753     MOV W3, [W14+10]
+002768  980760     MOV W0, [W14+12]
+00276A  90002E     MOV [W14+4], W0
+00276C  DE80CF     ASR W0, #15, W1
+00276E  780101     MOV W1, W2
+002770  780182     MOV W2, W3
+002772  BE0302     MOV.D W2, W6
+002774  BE0200     MOV.D W0, W4
+002776  90003E     MOV [W14+6], W0
+002778  9000CE     MOV [W14+8], W1
+00277A  90015E     MOV [W14+10], W2
+00277C  9001EE     MOV [W14+12], W3
+00277E  07EFE2     RCALL 0x744
+002780  780001     MOV W1, W0
+002782  780082     MOV W2, W1
+002784  B91961     MUL.SU W3, #1, W2
+002786  BE0000     MOV.D W0, W0
+002788  40000C     ADD W0, W12, W0
+00278A  48808D     ADDC W1, W13, W1
+00278C  88ADA0     MOV W0, 0x15B4
+00278E  88ADB1     MOV W1, 0x15B6
+27:                    b.s += (( (int64_t)b.v * dt) >> 16);
+002790  215AC0     MOV #0x15AC, W0
+002792  BE0230     MOV.D [W0++], W4
+002794  BE0320     MOV.D [W0--], W6
+002796  980774     MOV W4, [W14+14]
+002798  980F05     MOV W5, [W14+16]
+00279A  980F16     MOV W6, [W14+18]
+00279C  980F27     MOV W7, [W14+20]
+00279E  80ADA0     MOV 0x15B4, W0
+0027A0  80ADB1     MOV 0x15B6, W1
+0027A2  BE0400     MOV.D W0, W8
+0027A4  DE884F     ASR W1, #15, W0
+0027A6  780500     MOV W0, W10
+0027A8  780580     MOV W0, W11
+0027AA  90002E     MOV [W14+4], W0
+0027AC  DE80CF     ASR W0, #15, W1
+0027AE  780101     MOV W1, W2
+0027B0  780182     MOV W2, W3
+0027B2  BE0302     MOV.D W2, W6
+0027B4  BE0200     MOV.D W0, W4
+0027B6  BE0008     MOV.D W8, W0
+0027B8  BE010A     MOV.D W10, W2
+0027BA  07EFC4     RCALL 0x744
+0027BC  780001     MOV W1, W0
+0027BE  780082     MOV W2, W1
+0027C0  B91961     MUL.SU W3, #1, W2
+0027C2  90027E     MOV [W14+14], W4
+0027C4  900A8E     MOV [W14+16], W5
+0027C6  900B1E     MOV [W14+18], W6
+0027C8  900BAE     MOV [W14+20], W7
+0027CA  400004     ADD W0, W4, W0
+0027CC  488085     ADDC W1, W5, W1
+0027CE  490106     ADDC W2, W6, W2
+0027D0  498187     ADDC W3, W7, W3
+0027D2  215AC4     MOV #0x15AC, W4
+0027D4  BE9A00     MOV.D W0, [W4++]
+0027D6  BE9202     MOV.D W2, [W4--]
+28:                    
+29:                    initial->s = b.s;
+0027D8  215AC0     MOV #0x15AC, W0
+0027DA  BE0150     MOV.D [++W0], W2
+0027DC  BE0040     MOV.D [--W0], W0
+0027DE  78021E     MOV [W14], W4
+0027E0  BE9A00     MOV.D W0, [W4++]
+0027E2  BE9202     MOV.D W2, [W4--]
+30:                    initial->v = b.v;
+0027E4  80ADA0     MOV 0x15B4, W0
+0027E6  80ADB1     MOV 0x15B6, W1
+0027E8  78011E     MOV [W14], W2
+0027EA  980140     MOV W0, [W2+8]
+0027EC  980151     MOV W1, [W2+10]
+31:                }
+0027EE  BE064F     MOV.D [--W15], W12
+0027F0  BE054F     MOV.D [--W15], W10
+0027F2  BE044F     MOV.D [--W15], W8
+0027F4  FA8000     ULNK
+0027F6  060000     RETURN
+---  D:/Programming/LocalGit/ServoBrainzzz/ServoBrainV0_1.X/PWMSetup.c  ---------------------------------
+1:                 #include "PWMSetup.h"
+2:                 
+3:                 void PWMSetup()
+4:                 {
+00293A  FA0000     LNK #0x0
+5:                     PTCONbits.PTEN = 0;     // Disable PWM before changing PTCON values
+00293C  A9EC01     BCLR 0xC01, #7
+6:                     PTCONbits.SYNCEN = 0;
+00293E  A9EC00     BCLR PTCON, #7
+7:                     PTCONbits.SYNCOEN = 1;  // Sync to primary time base
+002940  A80C01     BSET 0xC01, #0
+8:                     PTCONbits.SYNCPOL = 0;
+002942  A92C01     BCLR 0xC01, #1
+9:                     PTCONbits.EIPU = 0;
+002944  A94C01     BCLR 0xC01, #2
+10:                    PTCONbits.SEIEN = 0;
+002946  A96C01     BCLR 0xC01, #3
+11:                    PTCONbits.PTSIDL = 1;
+002948  A8AC01     BSET 0xC01, #5
+12:                    PTCON2bits.PCLKDIV = 0; // Divide timebase by 1
+00294A  806011     MOV PTCON2, W1
+00294C  2FFF80     MOV #0xFFF8, W0
+00294E  608000     AND W1, W0, W0
+002950  886010     MOV W0, PTCON2
+13:                    PWMCON2bits.MDCS = 0;   // Duty Cycle by PDC2 register
+002952  A90C41     BCLR 0xC41, #0
+14:                    PWMCON2bits.ITB = 0;    // Period by PTPER register
+002954  A92C41     BCLR 0xC41, #1
+15:                    PWMCON2bits.IUE = 0;    // Immediate Updates
+002956  A90C40     BCLR PWMCON2, #0
+16:                    PWMCON2bits.XPRES = 0;  // External pins do not effect PWM time base
+002958  A92C40     BCLR PWMCON2, #1
+17:                    PWMCON2bits.CAM = 0;    // Edge Aligned
+00295A  A94C40     BCLR PWMCON2, #2
+18:                    PWMCON2bits.MTBS = 0;   // Use Primary time base
+00295C  A96C40     BCLR PWMCON2, #3
+19:                    PWMCON2bits.DTC = 2;    // Dead Time Disabled
+00295E  806201     MOV PWMCON2, W1
+002960  2FF3F0     MOV #0xFF3F, W0
+002962  608080     AND W1, W0, W1
+002964  200800     MOV #0x80, W0
+002966  708000     IOR W1, W0, W0
+002968  886200     MOV W0, PWMCON2
+20:                    PTPER = PWM_PERIOD;     // PWM Period
+00296A  210000     MOV #0x1000, W0
+00296C  886020     MOV W0, PTPER
+21:                    PDC2 = 0;               // Initial Duty Cycle
+00296E  EB0000     CLR W0
+002970  886230     MOV W0, PDC2
+22:                
+23:                    PTCONbits.PTEN = 1;
+002972  A8EC01     BSET 0xC01, #7
+24:                    POS1CNTL = 0;
+002974  EB0000     CLR W0
+002976  880E30     MOV W0, POS1CNTL
+25:                    POS1CNTH = 0;
+002978  EB0000     CLR W0
+00297A  880E40     MOV W0, POS1CNTH
+26:                }
+00297C  FA8000     ULNK
+00297E  060000     RETURN
+27:                
+28:                void SetPowerOpenLoop(signed char Percent)
+29:                {
+002980  FA0002     LNK #0x2
+002982  784F00     MOV.B W0, [W14]
+30:                    if(Percent>0)
+002984  78401E     MOV.B [W14], W0
+002986  504FE0     SUB.B W0, #0x0, [W15]
+002988  340003     BRA LE, 0x2990
+31:                    {
+32:                        directionA = 1;
+00298A  A84E44     BSET LATE, #2
+33:                        directionB = 0;
+00298C  A92E94     BCLR LATK, #1
+00298E  370003     BRA 0x2996
+34:                    }
+35:                    else
+36:                    {
+37:                        directionA = 0;
+002990  A94E44     BCLR LATE, #2
+38:                        directionB = 1;
+002992  A82E94     BSET LATK, #1
+39:                        Percent *= -1;
+002994  EA4F1E     NEG.B [W14], [W14]
+40:                    }
+41:                    
+42:                    PDC2 = (unsigned int)((PWM_PERIOD * (unsigned long)Percent) / 100);
+002996  78401E     MOV.B [W14], W0
+002998  FB0100     SE W0, W2
+00299A  DE91CF     ASR W2, #15, W3
+00299C  DD184C     SL W3, #12, W0
+00299E  DE10C4     LSR W2, #4, W1
+0029A0  700081     IOR W0, W1, W1
+0029A2  DD104C     SL W2, #12, W0
+0029A4  200642     MOV #0x64, W2
+0029A6  200003     MOV #0x0, W3
+0029A8  07EDBF     RCALL 0x528
+0029AA  780000     MOV W0, W0
+0029AC  886230     MOV W0, PDC2
+43:                }
+0029AE  FA8000     ULNK
+0029B0  060000     RETURN
+---  D:/Programming/LocalGit/ServoBrainzzz/ServoBrainV0_1.X/OscSetup.c  ---------------------------------
+1:                 #include "OscSetup.h"
+2:                 
+3:                 void OscillatorSetup()
+4:                 {
+002A12  FA0000     LNK #0x0
+5:                     CLKDIVbits.FRCDIV = 0;              // Clock divided by 1
+002A14  803A21     MOV CLKDIV, W1
+002A16  2F8FF0     MOV #0xF8FF, W0
+002A18  608000     AND W1, W0, W0
+002A1A  883A20     MOV W0, CLKDIV
+6:                     CLKDIVbits.PLLPRE = 0;              // Divide by 2
+002A1C  803A21     MOV CLKDIV, W1
+002A1E  2FFE00     MOV #0xFFE0, W0
+002A20  608000     AND W1, W0, W0
+002A22  883A20     MOV W0, CLKDIV
+7:                     CLKDIVbits.PLLPOST =0;              // Divide by 2
+002A24  803A21     MOV CLKDIV, W1
+002A26  2FF3F0     MOV #0xFF3F, W0
+002A28  608000     AND W1, W0, W0
+002A2A  883A20     MOV W0, CLKDIV
+8:                     PLLFBD=73;                          // PPL multiplier
+002A2C  200490     MOV #0x49, W0
+002A2E  883A30     MOV W0, PLLFBD
+9:                                                         // Totals ~75.54 MHZ
+10:                    while(OSCCONbits.COSC != 0b001);    // Wait for new Oscillator to become FRC w/ PLL
+002A30  000000     NOP
+002A32  803A11     MOV OSCCON, W1
+002A34  270000     MOV #0x7000, W0
+002A36  608080     AND W1, W0, W1
+002A38  210000     MOV #0x1000, W0
+002A3A  508F80     SUB W1, W0, [W15]
+002A3C  3AFFFA     BRA NZ, 0x2A32
+11:                    while(OSCCONbits.LOCK != 1);        // Wait for Pll to Lock
+002A3E  000000     NOP
+002A40  803A11     MOV OSCCON, W1
+002A42  200200     MOV #0x20, W0
+002A44  608000     AND W1, W0, W0
+002A46  500FE0     SUB W0, #0x0, [W15]
+002A48  32FFFB     BRA Z, 0x2A40
+12:                }
+002A4A  FA8000     ULNK
+002A4C  060000     RETURN
+---  D:/Programming/LocalGit/ServoBrainzzz/ServoBrainV0_1.X/Motion.c  -----------------------------------
+1:                 #include "Motion.h"
+2:                 
+3:                 void CalcProfile(VelocityProfile *velocityProfile, const State *current, const State *target)
+4:                 {
+002504  FA0008     LNK #0x8
+002506  980710     MOV W0, [W14+2]
+002508  980721     MOV W1, [W14+4]
+00250A  980732     MOV W2, [W14+6]
+5:                     static State a, t;
+6:                     a.s = current->s;
+00250C  90002E     MOV [W14+4], W0
+00250E  BE0150     MOV.D [++W0], W2
+002510  BE0040     MOV.D [--W0], W0
+002512  2157E4     MOV #0x157E, W4
+002514  BE9A00     MOV.D W0, [W4++]
+002516  BE9202     MOV.D W2, [W4--]
+7:                     a.v = current->v;
+002518  90002E     MOV [W14+4], W0
+00251A  9000D0     MOV [W0+10], W1
+00251C  900040     MOV [W0+8], W0
+00251E  88AC30     MOV W0, 0x1586
+002520  88AC41     MOV W1, 0x1588
+8:                     t.s = target->s;
+002522  90003E     MOV [W14+6], W0
+002524  BE0150     MOV.D [++W0], W2
+002526  BE0040     MOV.D [--W0], W0
+002528  2158A4     MOV #0x158A, W4
+00252A  BE9A00     MOV.D W0, [W4++]
+00252C  BE9202     MOV.D W2, [W4--]
+9:                     t.v = target->v;
+00252E  90003E     MOV [W14+6], W0
+002530  9000D0     MOV [W0+10], W1
+002532  900040     MOV [W0+8], W0
+002534  88AC90     MOV W0, 0x1592
+002536  88ACA1     MOV W1, 0x1594
+10:                
+11:                    int16_t iterationCount = 0;
+002538  EB0000     CLR W0
+00253A  780F00     MOV W0, [W14]
+12:                
+13:                    if(a.v > t.v)
+00253C  80AC32     MOV 0x1586, W2
+00253E  80AC43     MOV 0x1588, W3
+002540  80AC90     MOV 0x1592, W0
+002542  80ACA1     MOV 0x1594, W1
+002544  510F80     SUB W2, W0, [W15]
+002546  598F81     SUBB W3, W1, [W15]
+002548  34004A     BRA LE, 0x25DE
+14:                    {
+15:                        while( (a.v > t.v) && (iterationCount < QtyProfilePoints) )
+00254A  37001E     BRA 0x2588
+002588  80AC32     MOV 0x1586, W2
+00258A  80AC43     MOV 0x1588, W3
+00258C  80AC90     MOV 0x1592, W0
+00258E  80ACA1     MOV 0x1594, W1
+002590  510F80     SUB W2, W0, [W15]
+002592  598F81     SUBB W3, W1, [W15]
+002594  340030     BRA LE, 0x25F6
+002596  2003F0     MOV #0x3F, W0
+002598  78009E     MOV [W14], W1
+00259A  508F80     SUB W1, W0, [W15]
+00259C  34FFD7     BRA LE, 0x254C
+00259E  37002B     BRA 0x25F6
+16:                        {
+17:                            velocityProfile->dataPoint[iterationCount].time = DT*8*(int32_t)iterationCount;
+00254C  78001E     MOV [W14], W0
+00254E  DE80CF     ASR W0, #15, W1
+002550  214F82     MOV #0x14F8, W2
+002552  B80982     MUL.UU W1, W2, W2
+002554  B802E0     MUL.UU W0, #0, W4
+002556  780184     MOV W4, W3
+002558  410103     ADD W2, W3, W2
+00255A  214F83     MOV #0x14F8, W3
+00255C  B80003     MUL.UU W0, W3, W0
+00255E  410101     ADD W2, W1, W2
+002560  780082     MOV W2, W1
+002562  90019E     MOV [W14+2], W3
+002564  78011E     MOV [W14], W2
+002566  DD1143     SL W2, #3, W2
+002568  418102     ADD W3, W2, W2
+00256A  BE8900     MOV.D W0, [W2]
+18:                            velocityProfile->dataPoint[iterationCount].v = a.v;
+00256C  80AC30     MOV 0x1586, W0
+00256E  80AC41     MOV 0x1588, W1
+002570  90019E     MOV [W14+2], W3
+002572  78011E     MOV [W14], W2
+002574  DD1143     SL W2, #3, W2
+002576  418102     ADD W3, W2, W2
+002578  410164     ADD W2, #0x4, W2
+00257A  BE8900     MOV.D W0, [W2]
+19:                            integrate(&a, accelFuncNegative, DT*8);
+00257C  80ADD0     MOV accelFuncNegative, W0
+00257E  214F82     MOV #0x14F8, W2
+002580  780080     MOV W0, W1
+002582  2157E0     MOV #0x157E, W0
+002584  0700D4     RCALL integrate
+20:                            iterationCount++;
+002586  E80F1E     INC [W14], [W14]
+21:                        }
+22:                    }
+23:                    else
+24:                    {
+25:                        while( (a.v < t.v) && (iterationCount < QtyProfilePoints) )
+0025DE  000000     NOP
+0025E0  80AC32     MOV 0x1586, W2
+0025E2  80AC43     MOV 0x1588, W3
+0025E4  80AC90     MOV 0x1592, W0
+0025E6  80ACA1     MOV 0x1594, W1
+0025E8  510F80     SUB W2, W0, [W15]
+0025EA  598F81     SUBB W3, W1, [W15]
+0025EC  3D0004     BRA GE, 0x25F6
+0025EE  2003F0     MOV #0x3F, W0
+0025F0  78009E     MOV [W14], W1
+0025F2  508F80     SUB W1, W0, [W15]
+0025F4  34FFD5     BRA LE, 0x25A0
+26:                        {
+27:                            velocityProfile->dataPoint[iterationCount].time = DT*8*(int32_t)iterationCount;
+0025A0  78001E     MOV [W14], W0
+0025A2  DE80CF     ASR W0, #15, W1
+0025A4  214F82     MOV #0x14F8, W2
+0025A6  B80982     MUL.UU W1, W2, W2
+0025A8  B802E0     MUL.UU W0, #0, W4
+0025AA  780184     MOV W4, W3
+0025AC  410103     ADD W2, W3, W2
+0025AE  214F83     MOV #0x14F8, W3
+0025B0  B80003     MUL.UU W0, W3, W0
+0025B2  410101     ADD W2, W1, W2
+0025B4  780082     MOV W2, W1
+0025B6  90019E     MOV [W14+2], W3
+0025B8  78011E     MOV [W14], W2
+0025BA  DD1143     SL W2, #3, W2
+0025BC  418102     ADD W3, W2, W2
+0025BE  BE8900     MOV.D W0, [W2]
+28:                            velocityProfile->dataPoint[iterationCount].v = a.v;
+0025C0  80AC30     MOV 0x1586, W0
+0025C2  80AC41     MOV 0x1588, W1
+0025C4  90019E     MOV [W14+2], W3
+0025C6  78011E     MOV [W14], W2
+0025C8  DD1143     SL W2, #3, W2
+0025CA  418102     ADD W3, W2, W2
+0025CC  410164     ADD W2, #0x4, W2
+0025CE  BE8900     MOV.D W0, [W2]
+29:                            integrate(&a, accelFuncPositive, DT*8);
+0025D0  80ADC0     MOV accelFuncPositive, W0
+0025D2  214F82     MOV #0x14F8, W2
+0025D4  780080     MOV W0, W1
+0025D6  2157E0     MOV #0x157E, W0
+0025D8  0700AA     RCALL integrate
+30:                            iterationCount++;
+0025DA  E80F1E     INC [W14], [W14]
+0025DC  370001     BRA 0x25E0
+31:                        }
+32:                    }
+33:                
+34:                    velocityProfile->endPosition = a.s;
+0025F6  2157E0     MOV #0x157E, W0
+0025F8  BE0150     MOV.D [++W0], W2
+0025FA  BE0040     MOV.D [--W0], W0
+0025FC  90021E     MOV [W14+2], W4
+0025FE  9A0200     MOV W0, [W4+512]
+002600  9A0211     MOV W1, [W4+514]
+002602  9A0222     MOV W2, [W4+516]
+002604  9A0233     MOV W3, [W4+518]
+35:                
+36:                    /*printf("VelocityProfile Debug\n");
+37:                    for(int i = 0; i < QtyProfilePoints; i++)
+38:                    {
+39:                        printf("t: "); PrintQ16B16(velocityProfile->dataPoint[i].time); printf("  v: "); PrintQ16B16(velocityProfile->dataPoint[i].v); printf("\n");
+40:                        
+41:                    }
+42:                    printf("final-position: "); PrintQ16B16(velocityProfile->endPosition); printf("\n");*/
+43:                
+44:                
+45:                }
+002606  FA8000     ULNK
+002608  060000     RETURN
+46:                
+47:                
+---  D:/Programming/LocalGit/ServoBrainzzz/ServoBrainV0_1.X/Main.c  -------------------------------------
+1:                 
+2:                 #include "p33EP512MU814.h"
+3:                 #include "string.h"
+4:                 #include "Startup.h"
+5:                 #include "Physics.h"
+6:                 #include "ProgramState.h"
+7:                 #include "PushButton.h"
+8:                 #include "Motion.h"
+9:                 #include "VelocityHold.h"
+10:                
+11:                
+12:                /// Configuration Bits ///
+13:                _FGS( GWRP_OFF & GSS_OFF & GSSK_OFF);
+14:                _FOSCSEL( IESO_OFF & FNOSC_FRCPLL );
+15:                _FOSC( POSCMD_NONE & OSCIOFNC_ON & IOL1WAY_OFF & FCKSM_CSDCMD);
+16:                _FWDT( WDTPOST_PS1 & WDTPRE_PR32 & PLLKEN_OFF & WINDIS_OFF & FWDTEN_OFF);
+17:                _FPOR( FPWRT_PWR1 & BOREN_OFF & ALTI2C1_ON & ALTI2C2_ON);
+18:                _FICD( ICS_PGD3 & RSTPRI_PF & JTAGEN_OFF);
+19:                _FAS( AWRP_OFF & APL_OFF & APLK_OFF );
+20:                
+21:                #define pushButtonA !PORTHbits.RH9
+22:                #define pushButtonB !PORTHbits.RH8
+23:                
+24:                uint64_t elapsedFrame;
+25:                State currentState;
+26:                State targetState;
+27:                PushButton buttonA;
+28:                PushButton buttonB;
+29:                VelocityProfile velocityProfile;
+30:                SerialBuffer UART1Buffer;
+31:                
+32:                
+33:                void __attribute__((__interrupt__, no_auto_psv)) _T1Interrupt(void)
+34:                {
+0002D0  F80036     PUSH RCOUNT
+0002D2  BE9F80     MOV.D W0, [W15++]
+0002D4  BE9F82     MOV.D W2, [W15++]
+0002D6  BE9F84     MOV.D W4, [W15++]
+0002D8  BE9F86     MOV.D W6, [W15++]
+0002DA  BE9F88     MOV.D W8, [W15++]
+0002DC  BE9F8A     MOV.D W10, [W15++]
+0002DE  FA0000     LNK #0x0
+35:                    IFS0bits.T1IF = 0;
+0002E0  A96800     BCLR IFS0, #3
+36:                    elapsedFrame ++;
+0002E2  213100     MOV #0x1310, W0
+0002E4  BE0230     MOV.D [W0++], W4
+0002E6  BE0320     MOV.D [W0--], W6
+0002E8  200010     MOV #0x1, W0
+0002EA  200001     MOV #0x0, W1
+0002EC  B81160     MUL.UU W2, #0, W2
+0002EE  400004     ADD W0, W4, W0
+0002F0  488085     ADDC W1, W5, W1
+0002F2  490106     ADDC W2, W6, W2
+0002F4  498187     ADDC W3, W7, W3
+0002F6  213104     MOV #0x1310, W4
+0002F8  BE9A00     MOV.D W0, [W4++]
+0002FA  BE9202     MOV.D W2, [W4--]
+37:                
+38:                    currentState.s = readPosition();
+0002FC  071206     RCALL readPosition
+0002FE  BE0400     MOV.D W0, W8
+000300  DE884F     ASR W1, #15, W0
+000302  780500     MOV W0, W10
+000304  780580     MOV W0, W11
+000306  213180     MOV #0x1318, W0
+000308  BE9808     MOV.D W8, [W0++]
+00030A  BE900A     MOV.D W10, [W0--]
+39:                    currentState.v = readVelocity();     // Only do this once per dt
+00030C  07120B     RCALL readVelocity
+00030E  889900     MOV W0, 0x1320
+000310  889911     MOV W1, 0x1322
+40:                
+41:                    if(elapsedFrame > 160)
+000312  213100     MOV #0x1310, W0
+000314  BE0230     MOV.D [W0++], W4
+000316  BE0320     MOV.D [W0--], W6
+000318  200A00     MOV #0xA0, W0
+00031A  200001     MOV #0x0, W1
+00031C  B81160     MUL.UU W2, #0, W2
+00031E  E12000     CP W4, W0
+000320  E1A801     CPB W5, W1
+000322  E1B002     CPB W6, W2
+000324  E1B803     CPB W7, W3
+000326  36000B     BRA LEU, 0x33E
+42:                    {
+43:                        targetState.v *= -1;
+000328  809960     MOV 0x132C, W0
+00032A  809971     MOV 0x132E, W1
+00032C  100060     SUBR W0, #0x0, W0
+00032E  1880E0     SUBBR W1, #0x0, W1
+000330  889960     MOV W0, 0x132C
+000332  889971     MOV W1, 0x132E
+44:                        elapsedFrame=0;
+000334  213104     MOV #0x1310, W4
+000336  B80060     MUL.UU W0, #0, W0
+000338  B81160     MUL.UU W2, #0, W2
+00033A  BE9A00     MOV.D W0, [W4++]
+00033C  BE9202     MOV.D W2, [W4--]
+45:                    }
+46:                    VelocityHold(targetState.v, currentState.v);
+00033E  809900     MOV 0x1320, W0
+000340  809911     MOV 0x1322, W1
+000342  809964     MOV 0x132C, W4
+000344  809975     MOV 0x132E, W5
+000346  BE0100     MOV.D W0, W2
+000348  BE0004     MOV.D W4, W0
+00034A  071256     RCALL VelocityHold
+47:                }
+00034C  FA8000     ULNK
+00034E  BE054F     MOV.D [--W15], W10
+000350  BE044F     MOV.D [--W15], W8
+000352  BE034F     MOV.D [--W15], W6
+000354  BE024F     MOV.D [--W15], W4
+000356  BE014F     MOV.D [--W15], W2
+000358  BE004F     MOV.D [--W15], W0
+00035A  F90036     POP RCOUNT
+00035C  064000     RETFIE
+48:                
+49:                int main(int argc, char** argv)
+50:                {
+00035E  FA0004     LNK #0x4
+000360  780F00     MOV W0, [W14]
+000362  980711     MOV W1, [W14+2]
+51:                    Startup();
+000364  0713BB     RCALL Startup
+52:                    AccelTableBuildDefault();
+000366  070D97     RCALL AccelTableBuildDefault
+53:                    targetState.v = 3200;
+54:                
+000368  20C800     MOV #0xC80, W0
+00036A  200001     MOV #0x0, W1
+00036C  889960     MOV W0, 0x132C
+00036E  889971     MOV W1, 0x132E
+55:                    //CalcProfile(&velocityProfile, &currentState, &targetState);
+56:                    UpdateButton(BUTTON_A_PORT, &buttonA);
+57:                
+000370  807390     MOV PORTH, W0
+000372  DE0049     LSR W0, #9, W0
+000374  604061     AND.B W0, #0x1, W0
+000376  FB8000     ZE W0, W0
+000378  213301     MOV #0x1330, W1
+00037A  071369     RCALL UpdateButton
+58:                    while(1)
+59:                    {
+60:                        printf("NARF");
+61:                        Nop();
+00037C  29E900     MOV #0x9E90, W0
+00037E  781F80     MOV W0, [W15++]
+000380  07027A     RCALL 0x876
+000382  E9878F     DEC2 W15, W15
+62:                    }
+000384  000000     NOP
+63:                
+000386  37FFFA     BRA 0x37C
+64:                    EnableInterrupt();
+65:                    
+66:                    while(1)
+67:                    {
+68:                
+69:                    }
+70:                    return 0;
+71:                }
+72:                
+---  D:/Programming/LocalGit/ServoBrainzzz/ServoBrainV0_1.X/InterruptSetup.c  ---------------------------
+1:                 #include "InterruptSetup.h"
+2:                 
+3:                 void InterruptSetup()
+4:                 {
+0028B8  FA0000     LNK #0x0
+5:                     T1CONbits.TCKPS = 2;                // Prescaler 1:64
+0028BA  800821     MOV T1CON, W1
+0028BC  2FFCF0     MOV #0xFFCF, W0
+0028BE  608080     AND W1, W0, W1
+0028C0  200200     MOV #0x20, W0
+0028C2  708000     IOR W1, W0, W0
+0028C4  880820     MOV W0, T1CON
+6:                     T1CONbits.TCS = 0;                  // Clock Source: Internal Clock (Fosc/2)
+0028C6  A92104     BCLR T1CON, #1
+7:                     T1CONbits.TGATE = 0;                // Disable Gated Timer
+0028C8  A9C104     BCLR T1CON, #6
+8:                     TMR1 = 0;                           // Clear timer register
+0028CA  EB0000     CLR W0
+0028CC  880800     MOV W0, TMR1
+9:                     PR1 = 11059;                        // 10.24ms
+0028CE  22B330     MOV #0x2B33, W0
+0028D0  880810     MOV W0, PR1
+10:                
+11:                    IPC0bits.T1IP = 7;                  // Interrupt Priority (7 = Highest)
+0028D2  804201     MOV IPC0, W1
+0028D4  270000     MOV #0x7000, W0
+0028D6  708000     IOR W1, W0, W0
+0028D8  884200     MOV W0, IPC0
+12:                    IFS0bits.T1IF = 0;                  // Clear Interrupt Flag
+0028DA  A96800     BCLR IFS0, #3
+13:                    IEC0bits.T1IE = 0;                  // Interrupt from Timer 1 Starts OFF
+0028DC  A96820     BCLR IEC0, #3
+14:                
+15:                    T2CONbits.TCKPS = 0;                // Prescaler 1:1
+0028DE  800881     MOV T2CON, W1
+0028E0  2FFCF0     MOV #0xFFCF, W0
+0028E2  608000     AND W1, W0, W0
+0028E4  880880     MOV W0, T2CON
+16:                    T2CONbits.T32 = 1;                  // 32bit mode
+0028E6  A86110     BSET T2CON, #3
+17:                    T2CONbits.TCS = 0;                  // Internal Clock Selected  (Timer is Fosc/2)
+0028E8  A92110     BCLR T2CON, #1
+18:                    T2CONbits.TGATE = 0;                // Disable Gated Timer
+0028EA  A9C110     BCLR T2CON, #6
+19:                    T2CONbits.TSIDL = 0;                // Continue when idle
+0028EC  A9A111     BCLR 0x111, #5
+20:                    IEC0bits.T3IE = 0;                  // Interrupt on 32bit T2/T3 pair disabled
+0028EE  A90821     BCLR 0x821, #0
+21:                    TMR3 = 0;                           // Clear MSW
+0028F0  EB0000     CLR W0
+0028F2  880850     MOV W0, TMR3
+22:                    TMR2 = 0;                           // Clear LSW
+0028F4  EB0000     CLR W0
+0028F6  880830     MOV W0, TMR2
+23:                    PR2 = 0xFFFF;                       // Maximum PR2:PR3
+0028F8  EB8000     SETM W0
+0028FA  880860     MOV W0, PR2
+24:                    PR3 = 0xFFFF;
+0028FC  EB8000     SETM W0
+0028FE  880870     MOV W0, PR3
+25:                }
+002900  FA8000     ULNK
+002902  060000     RETURN
+26:                
+27:                unsigned long ReadT2T3Pair()
+28:                {
+002904  FA0004     LNK #0x4
+29:                    unsigned int temp_lsb;
+30:                    unsigned int temp_msb;
+31:                
+32:                    temp_lsb = TMR2;
+002906  800830     MOV TMR2, W0
+002908  780F00     MOV W0, [W14]
+33:                    temp_msb = TMR3HLD;
+00290A  800840     MOV TMR3HLD, W0
+00290C  980710     MOV W0, [W14+2]
+34:                
+35:                    TMR2=0;
+00290E  EB0000     CLR W0
+002910  880830     MOV W0, TMR2
+36:                    TMR3=0;
+002912  EB0000     CLR W0
+002914  880850     MOV W0, TMR3
+37:                
+38:                    return (((unsigned long)temp_msb)<<16) + temp_lsb;
+002916  90001E     MOV [W14+2], W0
+002918  200001     MOV #0x0, W1
+00291A  DD01C0     SL W0, #0, W3
+00291C  200002     MOV #0x0, W2
+00291E  78001E     MOV [W14], W0
+002920  200001     MOV #0x0, W1
+002922  400002     ADD W0, W2, W0
+002924  488083     ADDC W1, W3, W1
+39:                }
+002926  FA8000     ULNK
+002928  060000     RETURN
+40:                
+41:                void EnableInterrupt()
+42:                {
+00292A  FA0000     LNK #0x0
+43:                    IEC0bits.T1IE = 1;
+00292C  A86820     BSET IEC0, #3
+44:                }
+00292E  FA8000     ULNK
+002930  060000     RETURN
+45:                
+46:                void DisableInterrupt()
+47:                {
+002932  FA0000     LNK #0x0
+48:                    IEC0bits.T1IE = 0;
+002934  A96820     BCLR IEC0, #3
+49:                }
+002936  FA8000     ULNK
+002938  060000     RETURN
+---  D:/Programming/LocalGit/ServoBrainzzz/ServoBrainV0_1.X/EncoderSetup.c  -----------------------------
+1:                 #include "EncoderSetup.h"
+2:                 
+3:                 void Encoder1Setup()
+4:                 {
+002ABA  FA0000     LNK #0x0
+5:                     ///////////// SETUP QEI1 //////////////////////////////////////////////////////////
+6:                     QEI1IOCbits.FLTREN = 1;     // Filter Enable
+002ABC  A8C1C3     BSET 0x1C3, #6
+7:                     QEI1IOCbits.QFDIV = 0;      // 1:1 Clock Divide?
+002ABE  800E11     MOV QEI1IOC, W1
+002AC0  2C7FF0     MOV #0xC7FF, W0
+002AC2  608000     AND W1, W0, W0
+002AC4  880E10     MOV W0, QEI1IOC
+8:                     QEI1CONbits.PIMOD = 0;      // Index has no effect on count
+002AC6  800E01     MOV QEI1CON, W1
+002AC8  2E3FF0     MOV #0xE3FF, W0
+002ACA  608000     AND W1, W0, W0
+002ACC  880E00     MOV W0, QEI1CON
+9:                     QEI1CONbits.CCM = 0;        // Quadrature Mode
+002ACE  800E01     MOV QEI1CON, W1
+002AD0  2FFFC0     MOV #0xFFFC, W0
+002AD2  608000     AND W1, W0, W0
+002AD4  880E00     MOV W0, QEI1CON
+10:                    QEI1CONbits.QEIEN = 1;
+002AD6  A8E1C1     BSET 0x1C1, #7
+11:                }
+002AD8  FA8000     ULNK
+002ADA  060000     RETURN
+---  D:/Programming/LocalGit/ServoBrainzzz/ServoBrainV0_1.X/BinaryPrinters.c  ---------------------------
+1:                 #include "BinaryPrinters.h"
+2:                 
+3:                 void PrintQ16B16(const int64_t value)
+4:                 {
+002A86  FA000C     LNK #0xC
+002A88  980720     MOV W0, [W14+4]
+002A8A  980731     MOV W1, [W14+6]
+002A8C  980742     MOV W2, [W14+8]
+002A8E  980753     MOV W3, [W14+10]
+5:                     double valueFloat;
+6:                     valueFloat = value;
+002A90  90002E     MOV [W14+4], W0
+002A92  9000BE     MOV [W14+6], W1
+002A94  90014E     MOV [W14+8], W2
+002A96  9001DE     MOV [W14+10], W3
+002A98  07ECCA     RCALL 0x42E
+002A9A  BE8F00     MOV.D W0, [W14]
+7:                     valueFloat /= 65536;
+002A9C  200002     MOV #0x0, W2
+002A9E  247803     MOV #0x4780, W3
+002AA0  BE001E     MOV.D [W14], W0
+002AA2  07EC74     RCALL 0x38C
+002AA4  BE8F00     MOV.D W0, [W14]
+8:                 
+9:                     printf("%+09.3f", valueFloat); printf(" ");
+002AA6  BE001E     MOV.D [W14], W0
+002AA8  BE9F80     MOV.D W0, [W15++]
+002AAA  29E800     MOV #0x9E80, W0
+002AAC  781F80     MOV W0, [W15++]
+002AAE  07EEDC     RCALL 0x868
+002AB0  5787E6     SUB W15, #0x6, W15
+002AB2  200200     MOV #0x20, W0
+002AB4  07EEC6     RCALL 0x842
+10:                }
+002AB6  FA8000     ULNK
+002AB8  060000     RETURN
+---  D:/Programming/LocalGit/ServoBrainzzz/ServoBrainV0_1.X/AccelTable.c  -------------------------------
+1:                 #include "AccelTable.h"
+2:                 
+3:                 static const int16_t QtyEntries = QTY_ENTRIES;
+4:                 static int32_t Step;
+5:                 static int32_t VRange;
+6:                 static int32_t Kt;
+7:                 static int32_t Wmax;
+8:                 
+9:                 static AccelTable accelTable;
+10:                
+11:                int32_t (*accelFuncPositive)(const State* state) = &GetPositiveAccel;
+12:                int32_t (*accelFuncNegative)(const State* state) = &GetNegativeAccel;
+13:                
+14:                void AccelTableBuildDefault()
+15:                {
+001E96  FA0036     LNK #0x36
+001E98  BE9F88     MOV.D W8, [W15++]
+001E9A  BE9F8A     MOV.D W10, [W15++]
+16:                    // Build a table of values for acceleration as a function of velocity.
+17:                    // The table values span between -VRange to +VRange
+18:                    // The units of VRange are (encoder counts per dt) shifted to Q<16,16>
+19:                    // Kt is torque constant
+20:                    // Wmax is the maximum
+21:                
+22:                    VRange = (8192L << 16);              // Q<16,16>
+001E9C  200000     MOV #0x0, W0
+001E9E  220001     MOV #0x2000, W1
+001EA0  888020     MOV W0, VRange
+001EA2  888031     MOV W1, 0x1006
+23:                    Step = (2*VRange)/QtyEntries;        // Q<16,16>
+001EA4  808020     MOV VRange, W0
+001EA6  808031     MOV 0x1006, W1
+001EA8  400200     ADD W0, W0, W4
+001EAA  488281     ADDC W1, W1, W5
+001EAC  84F340     MOV 0x9E68, W0
+001EAE  DE80CF     ASR W0, #15, W1
+001EB0  BE0100     MOV.D W0, W2
+001EB2  BE0004     MOV.D W4, W0
+001EB4  07F2AD     RCALL 0x410
+001EB6  888000     MOV W0, Step
+001EB8  888011     MOV W1, 0x1002
+24:                    Kt = (int32_t)(1500.0f*65536);        // Q<16,16>
+001EBA  200000     MOV #0x0, W0
+001EBC  205DC1     MOV #0x5DC, W1
+001EBE  888040     MOV W0, Kt
+001EC0  888051     MOV W1, 0x100A
+25:                    Wmax = (4096L << 16);                // Q<16,16>
+001EC2  200000     MOV #0x0, W0
+001EC4  210001     MOV #0x1000, W1
+001EC6  888060     MOV W0, Wmax
+001EC8  888071     MOV W1, 0x100E
+26:                
+27:                    // Build a table of values for acceleration as a function of velocity.  The table spans from -VRANGE to +VRANGE
+28:                    // The values are spaced by VRANGE / QTY_ENTRIES
+29:                    for(signed int i = 0; i < QtyEntries; i++)
+001ECA  EB0000     CLR W0
+001ECC  780F00     MOV W0, [W14]
+001ECE  3700B5     BRA 0x203A
+002038  E80F1E     INC [W14], [W14]
+00203A  84F341     MOV 0x9E68, W1
+00203C  78001E     MOV [W14], W0
+00203E  500F81     SUB W0, W1, [W15]
+002040  35FF47     BRA LT, 0x1ED0
+30:                    {
+31:                        //AccelNegative = kt*w/wmax + kt
+32:                        int32_t w = (i-(QtyEntries/2))*Step;    // w = Q<16,16>
+001ED0  84F341     MOV 0x9E68, W1
+001ED2  200020     MOV #0x2, W0
+001ED4  780100     MOV W0, W2
+001ED6  090011     REPEAT #0x11
+001ED8  D80082     DIV.SW W1, W2
+001EDA  10001E     SUBR W0, [W14], W0
+001EDC  B90161     MUL.SU W0, #1, W2
+001EDE  808000     MOV Step, W0
+001EE0  808011     MOV 0x1002, W1
+001EE2  B81A80     MUL.UU W3, W0, W4
+001EE4  780284     MOV W4, W5
+001EE6  B80A82     MUL.UU W1, W2, W4
+001EE8  428284     ADD W5, W4, W5
+001EEA  B81000     MUL.UU W2, W0, W0
+001EEC  428281     ADD W5, W1, W5
+001EEE  780085     MOV W5, W1
+001EF0  980710     MOV W0, [W14+2]
+001EF2  980721     MOV W1, [W14+4]
+001EF4  980710     MOV W0, [W14+2]
+001EF6  980721     MOV W1, [W14+4]
+33:                        if((w > Wmax) || (w < -Wmax))
+001EF8  808062     MOV Wmax, W2
+001EFA  808073     MOV 0x100E, W3
+001EFC  90001E     MOV [W14+2], W0
+001EFE  9000AE     MOV [W14+4], W1
+001F00  500F82     SUB W0, W2, [W15]
+001F02  588F83     SUBB W1, W3, [W15]
+001F04  3C0009     BRA GT, 0x1F18
+001F06  808060     MOV Wmax, W0
+001F08  808071     MOV 0x100E, W1
+001F0A  100160     SUBR W0, #0x0, W2
+001F0C  1881E0     SUBBR W1, #0x0, W3
+001F0E  90001E     MOV [W14+2], W0
+001F10  9000AE     MOV [W14+4], W1
+001F12  510F80     SUB W2, W0, [W15]
+001F14  598F81     SUBB W3, W1, [W15]
+001F16  340015     BRA LE, 0x1F42
+34:                        {
+35:                            accelTable.Velocity[i] = 0;
+001F18  78001E     MOV [W14], W0
+001F1A  DD00C2     SL W0, #2, W1
+001F1C  210100     MOV #0x1010, W0
+001F1E  408100     ADD W1, W0, W2
+001F20  B80060     MUL.UU W0, #0, W0
+001F22  BE8900     MOV.D W0, [W2]
+36:                            accelTable.Positive[i] = 0;
+001F24  200801     MOV #0x80, W1
+001F26  40801E     ADD W1, [W14], W0
+001F28  DD00C2     SL W0, #2, W1
+001F2A  210100     MOV #0x1010, W0
+001F2C  408100     ADD W1, W0, W2
+001F2E  B80060     MUL.UU W0, #0, W0
+001F30  BE8900     MOV.D W0, [W2]
+37:                            accelTable.Negative[i] = 0;
+001F32  200402     MOV #0x40, W2
+001F34  41001E     ADD W2, [W14], W0
+001F36  DD00C2     SL W0, #2, W1
+001F38  210100     MOV #0x1010, W0
+001F3A  408100     ADD W1, W0, W2
+001F3C  B80060     MUL.UU W0, #0, W0
+001F3E  BE8900     MOV.D W0, [W2]
+001F40  37007B     BRA 0x2038
+38:                        }
+39:                        else
+40:                        {
+41:                            accelTable.Velocity[i] = w;                                         // Q<16,16>
+001F42  78001E     MOV [W14], W0
+001F44  DD00C2     SL W0, #2, W1
+001F46  210100     MOV #0x1010, W0
+001F48  408000     ADD W1, W0, W0
+001F4A  90011E     MOV [W14+2], W2
+001F4C  9001AE     MOV [W14+4], W3
+001F4E  BE8802     MOV.D W2, [W0]
+42:                            accelTable.Positive[i] =    (( (int32_t)( ((int64_t)-Kt*(int64_t)w) / Wmax)) + Kt );    // Q<16,16>
+001F50  808040     MOV Kt, W0
+001F52  808051     MOV 0x100A, W1
+001F54  100060     SUBR W0, #0x0, W0
+001F56  1880E0     SUBBR W1, #0x0, W1
+001F58  BE0100     MOV.D W0, W2
+001F5A  980732     MOV W2, [W14+6]
+001F5C  980743     MOV W3, [W14+8]
+001F5E  DE884F     ASR W1, #15, W0
+001F60  780180     MOV W0, W3
+001F62  980753     MOV W3, [W14+10]
+001F64  980760     MOV W0, [W14+12]
+001F66  90001E     MOV [W14+2], W0
+001F68  9000AE     MOV [W14+4], W1
+001F6A  980770     MOV W0, [W14+14]
+001F6C  980F01     MOV W1, [W14+16]
+001F6E  90002E     MOV [W14+4], W0
+001F70  DE804F     ASR W0, #15, W0
+001F72  780080     MOV W0, W1
+001F74  980F11     MOV W1, [W14+18]
+001F76  980F20     MOV W0, [W14+20]
+001F78  90027E     MOV [W14+14], W4
+001F7A  900A8E     MOV [W14+16], W5
+001F7C  900B1E     MOV [W14+18], W6
+001F7E  900BAE     MOV [W14+20], W7
+001F80  90003E     MOV [W14+6], W0
+001F82  9000CE     MOV [W14+8], W1
+001F84  90015E     MOV [W14+10], W2
+001F86  9001EE     MOV [W14+12], W3
+001F88  07F3DD     RCALL 0x744
+001F8A  BE0502     MOV.D W2, W10
+001F8C  BE0400     MOV.D W0, W8
+001F8E  808060     MOV Wmax, W0
+001F90  808071     MOV 0x100E, W1
+001F92  BE0100     MOV.D W0, W2
+001F94  980F32     MOV W2, [W14+22]
+001F96  980F43     MOV W3, [W14+24]
+001F98  DE884F     ASR W1, #15, W0
+001F9A  780180     MOV W0, W3
+001F9C  980F53     MOV W3, [W14+26]
+001F9E  980F60     MOV W0, [W14+28]
+001FA0  900A3E     MOV [W14+22], W4
+001FA2  900ACE     MOV [W14+24], W5
+001FA4  900B5E     MOV [W14+26], W6
+001FA6  900BEE     MOV [W14+28], W7
+001FA8  BE0008     MOV.D W8, W0
+001FAA  BE010A     MOV.D W10, W2
+001FAC  07F366     RCALL 0x67A
+001FAE  BE0100     MOV.D W0, W2
+001FB0  808040     MOV Kt, W0
+001FB2  808051     MOV 0x100A, W1
+001FB4  400102     ADD W0, W2, W2
+001FB6  488183     ADDC W1, W3, W3
+001FB8  200804     MOV #0x80, W4
+001FBA  42001E     ADD W4, [W14], W0
+001FBC  DD00C2     SL W0, #2, W1
+001FBE  210100     MOV #0x1010, W0
+001FC0  408000     ADD W1, W0, W0
+001FC2  BE8802     MOV.D W2, [W0]
+43:                            accelTable.Negative[i] = -1*(( (int32_t)( ((int64_t)Kt*(int64_t)w)  / Wmax)) + Kt );    // Q<16,16>
+001FC4  808040     MOV Kt, W0
+001FC6  808051     MOV 0x100A, W1
+001FC8  BE0100     MOV.D W0, W2
+001FCA  980F72     MOV W2, [W14+30]
+001FCC  981703     MOV W3, [W14+32]
+001FCE  DE884F     ASR W1, #15, W0
+001FD0  780180     MOV W0, W3
+001FD2  981713     MOV W3, [W14+34]
+001FD4  981720     MOV W0, [W14+36]
+001FD6  90001E     MOV [W14+2], W0
+001FD8  9000AE     MOV [W14+4], W1
+001FDA  981730     MOV W0, [W14+38]
+001FDC  981741     MOV W1, [W14+40]
+001FDE  90002E     MOV [W14+4], W0
+001FE0  DE804F     ASR W0, #15, W0
+001FE2  780080     MOV W0, W1
+001FE4  981751     MOV W1, [W14+42]
+001FE6  981760     MOV W0, [W14+44]
+001FE8  90123E     MOV [W14+38], W4
+001FEA  9012CE     MOV [W14+40], W5
+001FEC  90135E     MOV [W14+42], W6
+001FEE  9013EE     MOV [W14+44], W7
+001FF0  90087E     MOV [W14+30], W0
+001FF2  90108E     MOV [W14+32], W1
+001FF4  90111E     MOV [W14+34], W2
+001FF6  9011AE     MOV [W14+36], W3
+001FF8  07F3A5     RCALL 0x744
+001FFA  BE0502     MOV.D W2, W10
+001FFC  BE0400     MOV.D W0, W8
+001FFE  808060     MOV Wmax, W0
+002000  808071     MOV 0x100E, W1
+002002  BE0100     MOV.D W0, W2
+002004  981772     MOV W2, [W14+46]
+002006  981F03     MOV W3, [W14+48]
+002008  DE884F     ASR W1, #15, W0
+00200A  780180     MOV W0, W3
+00200C  981F13     MOV W3, [W14+50]
+00200E  981F20     MOV W0, [W14+52]
+002010  90127E     MOV [W14+46], W4
+002012  901A8E     MOV [W14+48], W5
+002014  901B1E     MOV [W14+50], W6
+002016  901BAE     MOV [W14+52], W7
+002018  BE0008     MOV.D W8, W0
+00201A  BE010A     MOV.D W10, W2
+00201C  07F32E     RCALL 0x67A
+00201E  BE0100     MOV.D W0, W2
+002020  808040     MOV Kt, W0
+002022  808051     MOV 0x100A, W1
+002024  400002     ADD W0, W2, W0
+002026  488083     ADDC W1, W3, W1
+002028  100160     SUBR W0, #0x0, W2
+00202A  1881E0     SUBBR W1, #0x0, W3
+00202C  200404     MOV #0x40, W4
+00202E  42001E     ADD W4, [W14], W0
+002030  DD00C2     SL W0, #2, W1
+002032  210100     MOV #0x1010, W0
+002034  408000     ADD W1, W0, W0
+002036  BE8802     MOV.D W2, [W0]
+44:                        }
+45:                    }
+46:                }
+002042  BE054F     MOV.D [--W15], W10
+002044  BE044F     MOV.D [--W15], W8
+002046  FA8000     ULNK
+002048  060000     RETURN
+47:                
+48:                void DebugAccelTable()
+49:                {
+00204A  FA0012     LNK #0x12
+00204C  BE9F88     MOV.D W8, [W15++]
+00204E  BE9F8A     MOV.D W10, [W15++]
+50:                    printf("DebugAccelTable\n");
+002050  29E6A0     MOV #0x9E6A, W0
+002052  07F3EB     RCALL 0x82A
+51:                    for(signed int i = 0; i < QtyEntries; i++)
+002054  EB0000     CLR W0
+002056  780F00     MOV W0, [W14]
+002058  370038     BRA 0x20CA
+0020C8  E80F1E     INC [W14], [W14]
+0020CA  84F340     MOV 0x9E68, W0
+0020CC  78009E     MOV [W14], W1
+0020CE  508F80     SUB W1, W0, [W15]
+0020D0  35FFC4     BRA LT, 0x205A
+52:                    {
+53:                        printf("%-5u", i);
+00205A  781F9E     MOV [W14], [W15++]
+00205C  29E7A0     MOV #0x9E7A, W0
+00205E  781F80     MOV W0, [W15++]
+002060  07F3F5     RCALL 0x84C
+002062  5787E4     SUB W15, #0x4, W15
+54:                        PrintQ16B16(accelTable.Velocity[i]);
+002064  78001E     MOV [W14], W0
+002066  DD00C2     SL W0, #2, W1
+002068  210100     MOV #0x1010, W0
+00206A  408000     ADD W1, W0, W0
+00206C  BE0010     MOV.D [W0], W0
+00206E  BE0400     MOV.D W0, W8
+002070  DE884F     ASR W1, #15, W0
+002072  780500     MOV W0, W10
+002074  780580     MOV W0, W11
+002076  BE0008     MOV.D W8, W0
+002078  BE010A     MOV.D W10, W2
+00207A  070505     RCALL PrintQ16B16
+55:                        PrintQ16B16(accelTable.Negative[i]);
+00207C  200401     MOV #0x40, W1
+00207E  40801E     ADD W1, [W14], W0
+002080  DD00C2     SL W0, #2, W1
+002082  210100     MOV #0x1010, W0
+002084  408000     ADD W1, W0, W0
+002086  BE0010     MOV.D [W0], W0
+002088  BE0100     MOV.D W0, W2
+00208A  980712     MOV W2, [W14+2]
+00208C  980723     MOV W3, [W14+4]
+00208E  DE884F     ASR W1, #15, W0
+002090  780180     MOV W0, W3
+002092  980733     MOV W3, [W14+6]
+002094  980740     MOV W0, [W14+8]
+002096  90001E     MOV [W14+2], W0
+002098  9000AE     MOV [W14+4], W1
+00209A  90013E     MOV [W14+6], W2
+00209C  9001CE     MOV [W14+8], W3
+00209E  0704F3     RCALL PrintQ16B16
+56:                        PrintQ16B16(accelTable.Positive[i]);  printf("\n");
+0020A0  200801     MOV #0x80, W1
+0020A2  40801E     ADD W1, [W14], W0
+0020A4  DD00C2     SL W0, #2, W1
+0020A6  210100     MOV #0x1010, W0
+0020A8  408000     ADD W1, W0, W0
+0020AA  BE0010     MOV.D [W0], W0
+0020AC  BE0100     MOV.D W0, W2
+0020AE  980752     MOV W2, [W14+10]
+0020B0  980763     MOV W3, [W14+12]
+0020B2  DE884F     ASR W1, #15, W0
+0020B4  780180     MOV W0, W3
+0020B6  980773     MOV W3, [W14+14]
+0020B8  980F00     MOV W0, [W14+16]
+0020BA  90005E     MOV [W14+10], W0
+0020BC  9000EE     MOV [W14+12], W1
+0020BE  90017E     MOV [W14+14], W2
+0020C0  90098E     MOV [W14+16], W3
+0020C2  0704E1     RCALL PrintQ16B16
+0020C4  2000A0     MOV #0xA, W0
+0020C6  07F3BD     RCALL 0x842
+57:                    }
+58:                }
+0020D2  BE054F     MOV.D [--W15], W10
+0020D4  BE044F     MOV.D [--W15], W8
+0020D6  FA8000     ULNK
+0020D8  060000     RETURN
+59:                
+60:                int32_t GetPositiveAccel(const State *state)
+61:                {
+0020DA  FA001A     LNK #0x1A
+0020DC  980F40     MOV W0, [W14+24]
+62:                    int16_t i = 0;
+0020DE  EB0000     CLR W0
+0020E0  780F00     MOV W0, [W14]
+63:                    int16_t x = 0;
+0020E2  EB0000     CLR W0
+0020E4  980710     MOV W0, [W14+2]
+64:                    int32_t accel = 0;
+0020E6  B80060     MUL.UU W0, #0, W0
+0020E8  980720     MOV W0, [W14+4]
+0020EA  980731     MOV W1, [W14+6]
+65:                    int32_t v = (state->v);
+0020EC  90084E     MOV [W14+24], W0
+0020EE  900140     MOV [W0+8], W2
+0020F0  9001D0     MOV [W0+10], W3
+0020F2  980742     MOV W2, [W14+8]
+0020F4  980753     MOV W3, [W14+10]
+66:                
+67:                    if(v < -VRange)
+0020F6  808020     MOV VRange, W0
+0020F8  808031     MOV 0x1006, W1
+0020FA  100160     SUBR W0, #0x0, W2
+0020FC  1881E0     SUBBR W1, #0x0, W3
+0020FE  90004E     MOV [W14+8], W0
+002100  9000DE     MOV [W14+10], W1
+002102  510F80     SUB W2, W0, [W15]
+002104  598F81     SUBB W3, W1, [W15]
+002106  340005     BRA LE, 0x2112
+68:                    {
+69:                        i = 0;
+002108  EB0000     CLR W0
+00210A  780F00     MOV W0, [W14]
+70:                        return accel;
+00210C  90002E     MOV [W14+4], W0
+00210E  9000BE     MOV [W14+6], W1
+002110  37006F     BRA 0x21F0
+71:                    }
+72:                    else if(v > VRange)
+002112  808020     MOV VRange, W0
+002114  808031     MOV 0x1006, W1
+002116  90014E     MOV [W14+8], W2
+002118  9001DE     MOV [W14+10], W3
+00211A  510F80     SUB W2, W0, [W15]
+00211C  598F81     SUBB W3, W1, [W15]
+00211E  340005     BRA LE, 0x212A
+73:                    {
+74:                        i = (QtyEntries-1);
+002120  84F340     MOV 0x9E68, W0
+002122  E90F00     DEC W0, [W14]
+75:                        return accel;
+002124  90002E     MOV [W14+4], W0
+002126  9000BE     MOV [W14+6], W1
+002128  370063     BRA 0x21F0
+76:                    }
+77:                    else
+78:                    {
+79:                        i = ((v/Step) + (QtyEntries/2));
+00212A  808000     MOV Step, W0
+00212C  808011     MOV 0x1002, W1
+00212E  BE0100     MOV.D W0, W2
+002130  90004E     MOV [W14+8], W0
+002132  9000DE     MOV [W14+10], W1
+002134  07F16D     RCALL 0x410
+002136  780080     MOV W0, W1
+002138  84F342     MOV 0x9E68, W2
+00213A  200020     MOV #0x2, W0
+00213C  780180     MOV W0, W3
+00213E  781F81     MOV W1, [W15++]
+002140  090011     REPEAT #0x11
+002142  D80103     DIV.SW W2, W3
+002144  780101     MOV W1, W2
+002146  7800CF     MOV [--W15], W1
+002148  408000     ADD W1, W0, W0
+00214A  780F00     MOV W0, [W14]
+80:                        // Find "x", a percent of distance that w is between w(i) and w(i+1)
+81:                
+82:                        int32_t a = (v - accelTable.Velocity[i]);                               // Q<16,16>
+00214C  78001E     MOV [W14], W0
+00214E  DD00C2     SL W0, #2, W1
+002150  210100     MOV #0x1010, W0
+002152  408000     ADD W1, W0, W0
+002154  BE0010     MOV.D [W0], W0
+002156  90014E     MOV [W14+8], W2
+002158  9001DE     MOV [W14+10], W3
+00215A  510000     SUB W2, W0, W0
+00215C  598081     SUBB W3, W1, W1
+00215E  980760     MOV W0, [W14+12]
+002160  980771     MOV W1, [W14+14]
+83:                        int32_t b = (accelTable.Velocity[i+1] - accelTable.Velocity[i]);        // Q<16,16>
+002162  E8001E     INC [W14], W0
+002164  DD00C2     SL W0, #2, W1
+002166  210100     MOV #0x1010, W0
+002168  408000     ADD W1, W0, W0
+00216A  BE0110     MOV.D [W0], W2
+00216C  78001E     MOV [W14], W0
+00216E  DD00C2     SL W0, #2, W1
+002170  210100     MOV #0x1010, W0
+002172  408000     ADD W1, W0, W0
+002174  BE0010     MOV.D [W0], W0
+002176  510000     SUB W2, W0, W0
+002178  598081     SUBB W3, W1, W1
+00217A  980F00     MOV W0, [W14+16]
+00217C  980F11     MOV W1, [W14+18]
+84:                        int32_t c = 0;
+00217E  B80060     MUL.UU W0, #0, W0
+002180  980F20     MOV W0, [W14+20]
+002182  980F31     MOV W1, [W14+22]
+85:                        x = (a/b);                                                              
+002184  90090E     MOV [W14+16], W2
+002186  90099E     MOV [W14+18], W3
+002188  90006E     MOV [W14+12], W0
+00218A  9000FE     MOV [W14+14], W1
+00218C  07F141     RCALL 0x410
+00218E  980710     MOV W0, [W14+2]
+86:                        
+87:                        c = (accelTable.Positive[i+1] - accelTable.Positive[i]);                // Q<16,16>
+002190  E8001E     INC [W14], W0
+002192  B00800     ADD #0x80, W0
+002194  DD00C2     SL W0, #2, W1
+002196  210100     MOV #0x1010, W0
+002198  408000     ADD W1, W0, W0
+00219A  BE0110     MOV.D [W0], W2
+00219C  200804     MOV #0x80, W4
+00219E  42001E     ADD W4, [W14], W0
+0021A0  DD00C2     SL W0, #2, W1
+0021A2  210100     MOV #0x1010, W0
+0021A4  408000     ADD W1, W0, W0
+0021A6  BE0010     MOV.D [W0], W0
+0021A8  510000     SUB W2, W0, W0
+0021AA  598081     SUBB W3, W1, W1
+0021AC  980F20     MOV W0, [W14+20]
+0021AE  980F31     MOV W1, [W14+22]
+88:                        accel = ((c*x)>>8);                                                     // Q<16,16> * Q<0,8> = Q<16,24> >> 8 = Q<16,16>
+0021B0  90001E     MOV [W14+2], W0
+0021B2  DE80CF     ASR W0, #15, W1
+0021B4  90092E     MOV [W14+20], W2
+0021B6  B81181     MUL.UU W2, W1, W2
+0021B8  9009BE     MOV [W14+22], W3
+0021BA  B81A80     MUL.UU W3, W0, W4
+0021BC  780184     MOV W4, W3
+0021BE  410103     ADD W2, W3, W2
+0021C0  9009AE     MOV [W14+20], W3
+0021C2  B81800     MUL.UU W3, W0, W0
+0021C4  410101     ADD W2, W1, W2
+0021C6  780082     MOV W2, W1
+0021C8  DD0948     SL W1, #8, W2
+0021CA  DE0048     LSR W0, #8, W0
+0021CC  710000     IOR W2, W0, W0
+0021CE  DE88C8     ASR W1, #8, W1
+0021D0  980720     MOV W0, [W14+4]
+0021D2  980731     MOV W1, [W14+6]
+89:                        accel += accelTable.Positive[i];                                        // Q<16,16>
+0021D4  200803     MOV #0x80, W3
+0021D6  41801E     ADD W3, [W14], W0
+0021D8  DD00C2     SL W0, #2, W1
+0021DA  210100     MOV #0x1010, W0
+0021DC  408000     ADD W1, W0, W0
+0021DE  BE0010     MOV.D [W0], W0
+0021E0  90012E     MOV [W14+4], W2
+0021E2  9001BE     MOV [W14+6], W3
+0021E4  400002     ADD W0, W2, W0
+0021E6  488083     ADDC W1, W3, W1
+0021E8  980720     MOV W0, [W14+4]
+0021EA  980731     MOV W1, [W14+6]
+90:                        accel = accel;                                                          // Q<16,16>
+91:                    }
+92:                        //printf("Velocity: ");  PrintQ16B16(v);  printf("\n");
+93:                        //printf("x: ");  printf("%u", x);  printf("\n");
+94:                        //printf("Index: ");  printf("%u", i);  printf("\n");
+95:                        //printf("AccelValue: ");  PrintQ16B16(accel); printf("\n");
+96:                        //printf("\n");
+97:                    return accel;
+0021EC  90002E     MOV [W14+4], W0
+0021EE  9000BE     MOV [W14+6], W1
+98:                }
+0021F0  FA8000     ULNK
+0021F2  060000     RETURN
+99:                
+100:               int32_t GetNegativeAccel(const State *state)
+101:               {
+0021F4  FA001A     LNK #0x1A
+0021F6  980F40     MOV W0, [W14+24]
+102:                   int16_t i = 0;
+0021F8  EB0000     CLR W0
+0021FA  780F00     MOV W0, [W14]
+103:                   int16_t x = 0;
+0021FC  EB0000     CLR W0
+0021FE  980710     MOV W0, [W14+2]
+104:                   int32_t accel = 0;
+002200  B80060     MUL.UU W0, #0, W0
+002202  980720     MOV W0, [W14+4]
+002204  980731     MOV W1, [W14+6]
+105:                   int32_t v = state->v;  
+002206  90084E     MOV [W14+24], W0
+002208  900140     MOV [W0+8], W2
+00220A  9001D0     MOV [W0+10], W3
+00220C  980742     MOV W2, [W14+8]
+00220E  980753     MOV W3, [W14+10]
+106:               
+107:                   if(v < -VRange)
+002210  808020     MOV VRange, W0
+002212  808031     MOV 0x1006, W1
+002214  100160     SUBR W0, #0x0, W2
+002216  1881E0     SUBBR W1, #0x0, W3
+002218  90004E     MOV [W14+8], W0
+00221A  9000DE     MOV [W14+10], W1
+00221C  510F80     SUB W2, W0, [W15]
+00221E  598F81     SUBB W3, W1, [W15]
+002220  340005     BRA LE, 0x222C
+108:                   {
+109:                       i = 0;
+002222  EB0000     CLR W0
+002224  780F00     MOV W0, [W14]
+110:                       return accel;
+002226  90002E     MOV [W14+4], W0
+002228  9000BE     MOV [W14+6], W1
+00222A  37006F     BRA 0x230A
+111:                   }
+112:                   else if(v > VRange)
+00222C  808020     MOV VRange, W0
+00222E  808031     MOV 0x1006, W1
+002230  90014E     MOV [W14+8], W2
+002232  9001DE     MOV [W14+10], W3
+002234  510F80     SUB W2, W0, [W15]
+002236  598F81     SUBB W3, W1, [W15]
+002238  340005     BRA LE, 0x2244
+113:                   {
+114:                       i = (QtyEntries-1);
+00223A  84F340     MOV 0x9E68, W0
+00223C  E90F00     DEC W0, [W14]
+115:                       return accel;
+00223E  90002E     MOV [W14+4], W0
+002240  9000BE     MOV [W14+6], W1
+002242  370063     BRA 0x230A
+116:                   }
+117:                   else
+118:                   {
+119:                       i = ((v/Step) + (QtyEntries/2));
+002244  808000     MOV Step, W0
+002246  808011     MOV 0x1002, W1
+002248  BE0100     MOV.D W0, W2
+00224A  90004E     MOV [W14+8], W0
+00224C  9000DE     MOV [W14+10], W1
+00224E  07F0E0     RCALL 0x410
+002250  780080     MOV W0, W1
+002252  84F342     MOV 0x9E68, W2
+002254  200020     MOV #0x2, W0
+002256  780180     MOV W0, W3
+002258  781F81     MOV W1, [W15++]
+00225A  090011     REPEAT #0x11
+00225C  D80103     DIV.SW W2, W3
+00225E  780101     MOV W1, W2
+002260  7800CF     MOV [--W15], W1
+002262  408000     ADD W1, W0, W0
+002264  780F00     MOV W0, [W14]
+120:                       // Find "x", a percent of distance that w is between w(i) and w(i+1)
+121:               
+122:                       int32_t a = (v - accelTable.Velocity[i]);                     
+002266  78001E     MOV [W14], W0
+002268  DD00C2     SL W0, #2, W1
+00226A  210100     MOV #0x1010, W0
+00226C  408000     ADD W1, W0, W0
+00226E  BE0010     MOV.D [W0], W0
+002270  90014E     MOV [W14+8], W2
+002272  9001DE     MOV [W14+10], W3
+002274  510000     SUB W2, W0, W0
+002276  598081     SUBB W3, W1, W1
+002278  980760     MOV W0, [W14+12]
+00227A  980771     MOV W1, [W14+14]
+123:                       int32_t b = (accelTable.Velocity[i+1] - accelTable.Velocity[i]);  
+00227C  E8001E     INC [W14], W0
+00227E  DD00C2     SL W0, #2, W1
+002280  210100     MOV #0x1010, W0
+002282  408000     ADD W1, W0, W0
+002284  BE0110     MOV.D [W0], W2
+002286  78001E     MOV [W14], W0
+002288  DD00C2     SL W0, #2, W1
+00228A  210100     MOV #0x1010, W0
+00228C  408000     ADD W1, W0, W0
+00228E  BE0010     MOV.D [W0], W0
+002290  510000     SUB W2, W0, W0
+002292  598081     SUBB W3, W1, W1
+002294  980F00     MOV W0, [W14+16]
+002296  980F11     MOV W1, [W14+18]
+124:                       int32_t c = 0;
+002298  B80060     MUL.UU W0, #0, W0
+00229A  980F20     MOV W0, [W14+20]
+00229C  980F31     MOV W1, [W14+22]
+125:                       x = (a/b);
+00229E  90090E     MOV [W14+16], W2
+0022A0  90099E     MOV [W14+18], W3
+0022A2  90006E     MOV [W14+12], W0
+0022A4  9000FE     MOV [W14+14], W1
+0022A6  07F0B4     RCALL 0x410
+0022A8  980710     MOV W0, [W14+2]
+126:               
+127:                       c = (accelTable.Negative[i+1] - accelTable.Negative[i]);          
+0022AA  E8001E     INC [W14], W0
+0022AC  B00400     ADD #0x40, W0
+0022AE  DD00C2     SL W0, #2, W1
+0022B0  210100     MOV #0x1010, W0
+0022B2  408000     ADD W1, W0, W0
+0022B4  BE0110     MOV.D [W0], W2
+0022B6  200404     MOV #0x40, W4
+0022B8  42001E     ADD W4, [W14], W0
+0022BA  DD00C2     SL W0, #2, W1
+0022BC  210100     MOV #0x1010, W0
+0022BE  408000     ADD W1, W0, W0
+0022C0  BE0010     MOV.D [W0], W0
+0022C2  510000     SUB W2, W0, W0
+0022C4  598081     SUBB W3, W1, W1
+0022C6  980F20     MOV W0, [W14+20]
+0022C8  980F31     MOV W1, [W14+22]
+128:                       accel = ((c*x)>>8);
+0022CA  90001E     MOV [W14+2], W0
+0022CC  DE80CF     ASR W0, #15, W1
+0022CE  90092E     MOV [W14+20], W2
+0022D0  B81181     MUL.UU W2, W1, W2
+0022D2  9009BE     MOV [W14+22], W3
+0022D4  B81A80     MUL.UU W3, W0, W4
+0022D6  780184     MOV W4, W3
+0022D8  410103     ADD W2, W3, W2
+0022DA  9009AE     MOV [W14+20], W3
+0022DC  B81800     MUL.UU W3, W0, W0
+0022DE  410101     ADD W2, W1, W2
+0022E0  780082     MOV W2, W1
+0022E2  DD0948     SL W1, #8, W2
+0022E4  DE0048     LSR W0, #8, W0
+0022E6  710000     IOR W2, W0, W0
+0022E8  DE88C8     ASR W1, #8, W1
+0022EA  980720     MOV W0, [W14+4]
+0022EC  980731     MOV W1, [W14+6]
+129:                       accel += accelTable.Negative[i];                              
+0022EE  200403     MOV #0x40, W3
+0022F0  41801E     ADD W3, [W14], W0
+0022F2  DD00C2     SL W0, #2, W1
+0022F4  210100     MOV #0x1010, W0
+0022F6  408000     ADD W1, W0, W0
+0022F8  BE0010     MOV.D [W0], W0
+0022FA  90012E     MOV [W14+4], W2
+0022FC  9001BE     MOV [W14+6], W3
+0022FE  400002     ADD W0, W2, W0
+002300  488083     ADDC W1, W3, W1
+002302  980720     MOV W0, [W14+4]
+002304  980731     MOV W1, [W14+6]
+130:                       accel = accel;      
+131:                   }
+132:                       //printf("Velocity: ");  PrintQ16B16(v);  printf("\n");
+133:                       //printf("x: ");  printf("%u", x);  printf("\n");
+134:                       //printf("Index: ");  printf("%u", i);  printf("\n");
+135:                       //printf("AccelValue: ");  PrintQ16B16(accel); printf("\n");
+136:                       //printf("\n");
+137:                   return accel;
+002306  90002E     MOV [W14+4], W0
+002308  9000BE     MOV [W14+6], W1
+138:               }
+00230A  FA8000     ULNK
+00230C  060000     RETURN

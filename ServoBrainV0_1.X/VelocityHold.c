@@ -11,8 +11,8 @@ void VelocityHold(int32_t vTarget, int32_t vCurrent)
 
     int16_t command = ((VHoldPID.Pvalue + VHoldPID.Iaccum + VHoldPID.Dvalue)>>8);
 
-    printf("%li", vCurrent); printf("  ");
-    printf("%li", VHoldPID.error); printf("\n");
+    //printf("%li", vCurrent); printf("  ");
+    //printf("%li", VHoldPID.error); printf("\n");
 
     if(command >= 0)
     {

@@ -10,6 +10,9 @@
 
 #include "PPS.h"
 
+#define BUTTON_A_PORT PORTHbits.RH9
+#define BUTTON_B_PORT PORTHbits.RH8
+
 void PortsSetup();
 
 #endif	/* PORTSSETUP_H */

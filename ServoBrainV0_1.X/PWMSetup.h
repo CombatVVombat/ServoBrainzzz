@@ -15,6 +15,8 @@
 #define directionA LATEbits.LATE2
 #define directionB LATKbits.LATK1
 
+void EnablePWM();
+void DisablePWM();
 void PWMSetup();
 void SetPowerOpenLoop(signed char Percent);
 

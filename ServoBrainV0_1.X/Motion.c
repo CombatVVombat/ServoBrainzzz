@@ -40,8 +40,6 @@ void CalcProfile(VelocityProfile *velocityProfile, const State *current, const S
         
     }
     printf("final-position: "); PrintQ16B16(velocityProfile->endPosition); printf("\n");*/
-
-
 }
 
 

@@ -20,9 +20,19 @@ void PWMSetup()
     PTPER = PWM_PERIOD;     // PWM Period
     PDC2 = 0;               // Initial Duty Cycle
 
-    PTCONbits.PTEN = 1;
+    PTCONbits.PTEN = 0;
     POS1CNTL = 0;
     POS1CNTH = 0;
+}
+
+void EnablePWM()
+{
+    PTCONbits.PTEN = 1;
+}
+
+void DisablePWM()
+{
+    PTCONbits.PTEN = 0;
 }
 
 void SetPowerOpenLoop(signed char Percent)

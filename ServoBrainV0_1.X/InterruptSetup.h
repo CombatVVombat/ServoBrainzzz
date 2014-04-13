@@ -11,9 +11,10 @@
 #include "p33EP512MU814.h"
 
 void InterruptSetup();
-unsigned long ReadT2T3Pair();
-void EnableInterrupt();
-void DisableInterrupt();
+void EnableT1Interrupt();
+void DisableT1Interrupt();
+void EnableT2Interrupt();
+void DisableT2Interupt();
 
 #endif	/* INTERRUPTSETUP_H */
 

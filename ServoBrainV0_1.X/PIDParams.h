@@ -8,6 +8,7 @@ typedef struct PIDParams
     int16_t P;
     int16_t I;
     int16_t D;
+    int32_t IaccumMax;
 
     int32_t error;
     int32_t Iaccum;

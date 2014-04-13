@@ -6,6 +6,7 @@
 #include "ProgramState.h"
 #include "PushButton.h"
 #include "Motion.h"
+#include "MotionDebug.h"
 #include "VelocityHold.h"
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -27,52 +28,116 @@ _FPOR( FPWRT_PWR1 & BOREN_OFF & ALTI2C1_ON & ALTI2C2_ON);
 _FICD( ICS_PGD3 & RSTPRI_PF & JTAGEN_OFF);
 _FAS( AWRP_OFF & APL_OFF & APLK_OFF );
 
-uint64_t elapsedFrame;
+int32_t elapsedFrame;
+char T1IntOverBudget;
 State currentState;
 State targetState;
 PushButton buttonA;
 PushButton buttonB;
-VelocityProfile velocityProfile;
 SerialBuffer UART1Buffer;
 
 void __attribute__((__interrupt__, no_auto_psv)) _T1Interrupt(void)
 {
     IFS0bits.T1IF = 0;
-    elapsedFrame ++;
-
+    T1IntOverBudget = 1;
+    
     currentState.s = readPosition();
     currentState.v = readVelocity();     // Only do this once per dt
 
-    if(elapsedFrame == 160)
+    GotoState(&currentState, &targetState);
+
+    if(debugIndex < DEBUG_BUF_SIZE)
     {
-        targetState.v *= -1;
+        debugPosBuf[debugIndex] = currentState.s;
+        debugVelBuf[debugIndex] = currentState.v;
+        debugIndex++;
     }
-    VelocityHold(targetState.v, currentState.v);
+    elapsedFrame++;
+    T1IntOverBudget = 0;
+}
+
+void __attribute__((__interrupt__,no_auto_psv)) _T2Interrupt(void)
+{
+    IFS0bits.T2IF = 0;
+    UpdateButton(BUTTON_A_PORT, &buttonA);
+    UpdateButton(BUTTON_B_PORT, &buttonB);
 }
 
 int main(int argc, char** argv)
 {
     while(1)
     {
-        Startup();
-        elapsedFrame=0;
-        ResetButton(&buttonA);
-        ResetButton(&buttonB);
-        AccelTableBuildDefault();
-
-        targetState.v = 3200;
-
-        while(buttonA.timeDown < 1024)   // button not down
+        switch(programState)
         {
-            UpdateButton(BUTTON_A_PORT, &buttonA);
-        }
+            case startUp:
+            {
+                Startup();
+                programState = initialize;
+                break;
+            }
+            case initialize:
+            {
+                printf("Entering State: initialize.\n");
+                ResetButton(&buttonA);
+                ResetButton(&buttonB);
+                AccelTableBuildDefault();
 
-        EnablePWM();
-        EnableInterrupt();
+                programState = enterRun;
+                break;
+            }
+            case enterRun:
+            {
+                printf("Entering State: enterRun.\n");
+                EnablePWM();
+                EnableT1Interrupt();
+                printf("Entering State: run.\n");
+                programState = run;
+                break;
+            }
+            case run:
+            {
+                if(buttonA.timeDown > 10)
+                {
+                    targetState.s = -131072;
+                    programState = enterRun;
+                    printf("Start Button Ack.\n");
+                }
+                if(buttonB.timeDown > 10)
+                {
+                    targetState.s = 131072;
+                    programState = enterRun;
+                    printf("Start Button Ack.\n");
+                }
+                if(T1IntOverBudget)
+                {
+                    printf("T1IntOverBudget.\n");
+                    programState = pause;
+                }
+                break;
+            }
+            case pause:
+            {
+                printf("Entering State: pause.\n");
+                DisableT1Interrupt();
+                DisablePWM();
+                while(buttonB.timeDown < 50)
+                {
+                    Nop();
+                }
+                programState = enterRun;
+                break;
+            }
+            case outputDebug:
+            {
+                printf("Entering State: outputDebug\n");
+                DisableT1Interrupt();
+                DisablePWM();
 
-        while(elapsedFrame < 300)
-        {
+                //OutputBuffer();
 
+                programState = initialize;
+                break;
+            }
         }
     }
     return 0;

@@ -1,35 +1,37 @@
 #include "AccelTable.h"
 
 static const int16_t QtyEntries = QTY_ENTRIES;
-static int32_t Step;
-static int32_t VRange;
-static int32_t Kt;
-static int32_t Wmax;
+static int16_t Step;
+static int16_t VRange;
+static int16_t KtMult;
+static int16_t KtDiv;
+static int16_t Wmax;
 
 static AccelTable accelTable;
 
-int32_t (*accelFuncPositive)(const State* state) = &GetPositiveAccel;
-int32_t (*accelFuncNegative)(const State* state) = &GetNegativeAccel;
+int16_t (*accelFuncPositive)(const State* state) = &GetPositiveAccel;
+int16_t (*accelFuncNegative)(const State* state) = &GetNegativeAccel;
 
 void AccelTableBuildDefault()
 {
     // Build a table of values for acceleration as a function of velocity.
     // The table values span between -VRange to +VRange
-    // The units of VRange are (encoder counts per dt) shifted to Q<16,16>
+    // The units of VRange are (encoder counts per dt)
     // Kt is torque constant
     // Wmax is the maximum
 
-    VRange = (8192L << 16);              // Q<16,16>
-    Step = (2*VRange)/QtyEntries;        // Q<16,16>
-    Kt = (int32_t)(1500.0f*65536);        // Q<16,16>
-    Wmax = (4096L << 16);                // Q<16,16>
+    VRange = 1024;
+    Step = (2*VRange)/QtyEntries;        
+    KtMult = 1;
+    KtDiv = 50;
+    Wmax = 800;
 
     // Build a table of values for acceleration as a function of velocity.  The table spans from -VRANGE to +VRANGE
-    // The values are spaced by VRANGE / QTY_ENTRIES
-    for(signed int i = 0; i < QtyEntries; i++)
+    // The values are spaced by Step
+    for(int i = 0; i < QtyEntries; i++)
     {
         //AccelNegative = kt*w/wmax + kt
-        int32_t w = (i-(QtyEntries/2))*Step;    // w = Q<16,16>
+        int16_t w = (i-(QtyEntries/2))*Step;
         if((w > Wmax) || (w < -Wmax))
         {
             accelTable.Velocity[i] = 0;
@@ -38,9 +40,9 @@ void AccelTableBuildDefault()
         }
         else
         {
-            accelTable.Velocity[i] = w;                                         // Q<16,16>
-            accelTable.Positive[i] =    (( (int32_t)( ((int64_t)-Kt*(int64_t)w) / Wmax)) + Kt );    // Q<16,16>
-            accelTable.Negative[i] = -1*(( (int32_t)( ((int64_t)Kt*(int64_t)w)  / Wmax)) + Kt );    // Q<16,16>
+            accelTable.Velocity[i] = w;                                         
+            accelTable.Positive[i] = ((-KtMult*w)/KtDiv) + ((KtMult*Wmax)/KtDiv);
+            accelTable.Negative[i] = -1*(((KtMult*w)/KtDiv) + ((KtMult*Wmax)/KtDiv));
         }
     }
 }
@@ -48,91 +50,43 @@ void AccelTableBuildDefault()
 void DebugAccelTable()
 {
     printf("DebugAccelTable\n");
-    for(signed int i = 0; i < QtyEntries; i++)
+    for(unsigned int i = 0; i < QtyEntries; i++)
     {
-        printf("%-5u", i);
-        PrintQ16B16(accelTable.Velocity[i]);
-        PrintQ16B16(accelTable.Negative[i]);
-        PrintQ16B16(accelTable.Positive[i]);  printf("\n");
+        printf("%u", i);  printf(",");
+        printf("%i", accelTable.Velocity[i]);  printf(",");
+        printf("%i", accelTable.Positive[i]);  printf(",");
+        printf("%i", accelTable.Negative[i]);  printf("\n");
     }
 }
 
-int32_t GetPositiveAccel(const State *state)
+int16_t GetPositiveAccel(const State *state)
 {
+    int16_t v = state->v;
     int16_t i = 0;
-    int16_t x = 0;
-    int32_t accel = 0;
-    int32_t v = (state->v);
 
-    if(v < -VRange)
+    if((v < -VRange) || (v > VRange))
     {
-        i = 0;
-        return accel;
-    }
-    else if(v > VRange)
-    {
-        i = (QtyEntries-1);
-        return accel;
+        return 0;
     }
     else
     {
         i = ((v/Step) + (QtyEntries/2));
-        // Find "x", a percent of distance that w is between w(i) and w(i+1)
-
-        int32_t a = (v - accelTable.Velocity[i]);                               // Q<16,16>
-        int32_t b = (accelTable.Velocity[i+1] - accelTable.Velocity[i]);        // Q<16,16>
-        int32_t c = 0;
-        x = (a/b);                                                              
-        
-        c = (accelTable.Positive[i+1] - accelTable.Positive[i]);                // Q<16,16>
-        accel = ((c*x)>>8);                                                     // Q<16,16> * Q<0,8> = Q<16,24> >> 8 = Q<16,16>
-        accel += accelTable.Positive[i];                                        // Q<16,16>
-        accel = accel;                                                          // Q<16,16>
+        return accelTable.Positive[i];
     }
-        //printf("Velocity: ");  PrintQ16B16(v);  printf("\n");
-        //printf("x: ");  printf("%u", x);  printf("\n");
-        //printf("Index: ");  printf("%u", i);  printf("\n");
-        //printf("AccelValue: ");  PrintQ16B16(accel); printf("\n");
-        //printf("\n");
-    return accel;
 }
 
-int32_t GetNegativeAccel(const State *state)
+int16_t GetNegativeAccel(const State *state)
 {
+    int16_t v = state->v;
     int16_t i = 0;
-    int16_t x = 0;
-    int32_t accel = 0;
-    int32_t v = state->v;  
 
-    if(v < -VRange)
+    if((v < -VRange) || (v > VRange))
     {
-        i = 0;
-        return accel;
-    }
-    else if(v > VRange)
-    {
-        i = (QtyEntries-1);
-        return accel;
+        return 0;
     }
     else
     {
         i = ((v/Step) + (QtyEntries/2));
-        // Find "x", a percent of distance that w is between w(i) and w(i+1)
-
-        int32_t a = (v - accelTable.Velocity[i]);                     
-        int32_t b = (accelTable.Velocity[i+1] - accelTable.Velocity[i]);  
-        int32_t c = 0;
-        x = (a/b);
-
-        c = (accelTable.Negative[i+1] - accelTable.Negative[i]);          
-        accel = ((c*x)>>8);
-        accel += accelTable.Negative[i];                              
-        accel = accel;      
+        return accelTable.Negative[i];
     }
-        //printf("Velocity: ");  PrintQ16B16(v);  printf("\n");
-        //printf("x: ");  printf("%u", x);  printf("\n");
-        //printf("Index: ");  printf("%u", i);  printf("\n");
-        //printf("AccelValue: ");  PrintQ16B16(accel); printf("\n");
-        //printf("\n");
-    return accel;
 }

@@ -11,9 +11,11 @@
 enum ProgramState
 {
     startUp,
-    fixedTimeInterrupt,
-    velocityTest,
-    test
+    initialize,
+    enterRun,
+    run,
+    pause,
+    outputDebug,
 };
 
 enum ProgramState programState = startUp;

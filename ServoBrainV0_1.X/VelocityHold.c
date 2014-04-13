@@ -1,18 +1,31 @@
 #include "VelocityHold.h"
 
-PIDParams VHoldPID = { .P=700, .I=128, .D=0};
+PIDParams VHoldPID = { .P=9000, .I=64, .D=0, .IaccumMax=1000000 };
 
-void VelocityHold(int32_t vTarget, int32_t vCurrent)
+void VelocityHold(int16_t vCurrent, int16_t vTarget)
 {
-    VHoldPID.error = (vTarget - vCurrent);                      //Q<16,0>
-    VHoldPID.Pvalue = (VHoldPID.error * VHoldPID.P);            //Q<16,0>*Q<8,8> = Q<24,8>
+    // D is not implemented
+
+    VHoldPID.error = (vTarget - vCurrent);                      
+    VHoldPID.Pvalue = (VHoldPID.error * VHoldPID.P);            
     VHoldPID.Iaccum += (VHoldPID.error * VHoldPID.I);
     VHoldPID.Dvalue = 0;
 
-    int16_t command = ((VHoldPID.Pvalue + VHoldPID.Iaccum + VHoldPID.Dvalue)>>8);
+    if(VHoldPID.Iaccum > VHoldPID.IaccumMax)
+        VHoldPID.Iaccum = VHoldPID.IaccumMax;
+    if(VHoldPID.Iaccum < -VHoldPID.IaccumMax)
+        VHoldPID.Iaccum = -VHoldPID.IaccumMax;
 
-    //printf("%li", vCurrent); printf("  ");
-    //printf("%li", VHoldPID.error); printf("\n");
+    int32_t command = ((VHoldPID.Pvalue + VHoldPID.Iaccum + VHoldPID.Dvalue)>>8);
+    if(command > 32767)
+        command = 32767;
+    if(command < -32767)
+        command = -32767;
+    command = (int16_t)command;
+
+    debugCtrlBuf[debugIndex] = command;
+    debugCommandBuf[debugIndex] = vTarget;
+    debugModeBuf[debugIndex] = 'V';
 
     if(command >= 0)
     {

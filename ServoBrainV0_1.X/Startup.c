@@ -5,13 +5,14 @@ void Startup()
 {
     OscillatorSetup();
     InterruptSetup();
-    DisableInterrupt();
+    DisableT1Interrupt();
+    EnableT2Interrupt();
     PortsSetup();
     UARTSetup();
     Encoder1Setup();
     PWMSetup();
 
-    T1CONbits.TON = 1;                  // Timer ON
-    T2CONbits.TON = 1;                  // Timer2/3 ON
+    T1CONbits.TON = 1;                  // Timer2 ON
+    T2CONbits.TON = 1;                  // Timer2 ON
     printf("Welcome -- ServoBrain V0.1\n\n");
 }

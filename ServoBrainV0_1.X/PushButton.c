@@ -15,9 +15,6 @@ void UpdateButton(const unsigned portToCheck, PushButton* pushButton)
 
     pushButton->lastState = pushButton->state;
     pushButton->state = portToCheck;
-
-    //printf("timeUp: "); printf("%uli", pushButton->timeUp); printf("\n");
-    //printf("timeDown: "); printf("%uli,", pushButton->timeDown); printf("\n");
 }
 
 void ResetButton(PushButton* pushButton)

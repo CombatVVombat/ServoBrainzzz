@@ -9,28 +9,16 @@
 #define	MOTION_H
 
 #include "stdint.h"
+#include "abs.h"
 #include "Physics.h"
 #include "AccelTable.h"
-#include "PWMSetup.h"
-#include "BinaryPrinters.h"
+#include "PositionHold.h"
+#include "VelocityHold.h"
 
-extern struct State currentState;
+#define VMax 850
 
-#define QtyProfilePoints 64
-
-typedef struct VelocityProfilePoint
-{
-    int32_t time;
-    int32_t v;
-} VelocityProfilePoint;
-
-typedef struct VelocityProfile
-{
-    VelocityProfilePoint dataPoint[QtyProfilePoints];
-    int64_t endPosition;
-} VelocityProfile;
-
-void CalcProfile(VelocityProfile *velocityProfile, const State *current, const State *target);
+int16_t GetVelTarget(const State *current, const State *target);
+void GotoState(const State *current, const State *target);
 
 
 #endif	/* MOTION_H */

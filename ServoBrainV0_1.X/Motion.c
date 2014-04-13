@@ -1,45 +1,93 @@
 #include "Motion.h"
 
-void CalcProfile(VelocityProfile *velocityProfile, const State *current, const State *target)
+void GotoState(const State *current, const State *target)
 {
-    static State a, t;
-    a.s = current->s;
-    a.v = current->v;
-    t.s = target->s;
-    t.v = target->v;
-
-    int16_t iterationCount = 0;
-
-    if(a.v > t.v)
+    int32_t distanceToTarget = abval32(target->s - current->s);
+    if(distanceToTarget > 64)
     {
-        while( (a.v > t.v) && (iterationCount < QtyProfilePoints) )
-        {
-            velocityProfile->dataPoint[iterationCount].time = DT*8*(int32_t)iterationCount;
-            velocityProfile->dataPoint[iterationCount].v = a.v;
-            integrate(&a, accelFuncNegative, DT*8);
-            iterationCount++;
-        }
+        VelocityHold(current->v, GetVelTarget(current, target));
     }
     else
     {
-        while( (a.v < t.v) && (iterationCount < QtyProfilePoints) )
-        {
-            velocityProfile->dataPoint[iterationCount].time = DT*8*(int32_t)iterationCount;
-            velocityProfile->dataPoint[iterationCount].v = a.v;
-            integrate(&a, accelFuncPositive, DT*8);
-            iterationCount++;
-        }
+        PositionHold(current, target);
     }
+}
 
-    velocityProfile->endPosition = a.s;
+int16_t GetVelTarget(const State *current, const State *target)
+{
+    // If target position is relatively far away, compute a move to prevent major overshoot
+        // Integate ending state backwards
+        // 1) j's position goes past the current position
+        //        Take the velocity at the position crossing
+        //        If the position crossing happened quickly, switch to PID
+        // 2) j's velocity exceeds the current velocity
+        //        Now Integrate J and I together until their positions pass each other
+    // If target position is relatively close, switch to position holding PID
 
-    /*printf("VelocityProfile Debug\n");
-    for(int i = 0; i < QtyProfilePoints; i++)
+    static State a, b, i, j;
+    a.s = current->s;   // a = starting state
+    a.v = current->v;
+    b.s = target->s;    // b = ending state
+    b.v = target->v;
+    i.s = a.s;          // i = iterating from start
+    i.v = a.v;
+    j.s = b.s;          // j = iterating from end
+    j.v = b.v;
+
+    if(b.s > a.s)   // Target position is in the positive direction
     {
-        printf("t: "); PrintQ16B16(velocityProfile->dataPoint[i].time); printf("  v: "); PrintQ16B16(velocityProfile->dataPoint[i].v); printf("\n");
-        
+        ////////////////////////////////////////////////////////////////////////
+        //////////////// Does part 1 for heading in positive direction /////////
+        while(j.v < a.v)    // integrate j backwards in time until velocities match
+        {
+            integrate(&j, accelFuncNegative, -1);
+            if(j.s < a.s)   // if the positions cross, escape early
+            {
+                return j.v;
+            }
+        }                               // loop falls through if no position crossing occured
+                                        // continue below...
+        ///////////// Does part 2 for heading in positive direction ////////////
+        while(i.s < j.s)        // integrate the start and end states together until they cross
+        {                       // trying to maintain velocities roughly together
+            if(i.v < j.v)
+                integrate(&i, accelFuncPositive, 1);
+            else
+                integrate(&j, accelFuncNegative, -1);
+
+            if((j.v > VMax) || (i.v > VMax))        // or until one of them exceeds VMax
+                return VMax;
+        }
+        return i.v;
     }
-    printf("final-position: "); PrintQ16B16(velocityProfile->endPosition); printf("\n");*/
+    
+    ////////////////////////////////////////////////////////////////////////////
+    //////// Handles part 1 for negative direction /////////////////////////////
+    else    // must go in negative direction
+    {
+        while(j.v > a.v)    // integrate j backwards until velocities match
+        {
+            integrate(&j, accelFuncPositive, -1);
+            if(j.s > a.s)       // escape early if the positions cross
+            {
+                return j.v;
+            }
+        }                           // loop falls through if positions do not cross
+                                    // continue below....
+
+        //// handles part 2 for negative direction /////////////////////////////
+        while(i.s > j.s)    // integrate start and end states together until they cross
+        {
+            if(i.v > j.v)
+                integrate(&i, accelFuncNegative, 1);
+            else
+                integrate(&j, accelFuncPositive, -1);
+
+            if((j.v < -VMax) || (i.v < -VMax))
+                return -VMax;
+        }
+        return j.v;
+    }
 }
 
 

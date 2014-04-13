@@ -4,11 +4,11 @@
 #include "stdint.h"
 #include "PIDParams.h"
 #include "PWMSetup.h"
-#include "BinaryPrinters.h"
+#include "MotionDebug.h"
 
 extern PIDParams VHoldPID;       // PID VALUES in Q<8,8>
 
-void VelocityHold(int32_t vTarget, int32_t vCurrent);
+void VelocityHold(int16_t vCurrent, int16_t vTarget);
 
 
 

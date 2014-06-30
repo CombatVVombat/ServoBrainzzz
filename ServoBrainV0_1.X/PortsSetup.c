@@ -10,8 +10,10 @@ void PortsSetup()
     TRISEbits.TRISE3=0; // output for PWM
     TRISEbits.TRISE2=0; // output, direction A
     TRISKbits.TRISK1=0; // output, direction B
-    TRISHbits.TRISH9=1; // pushbutton A
-    TRISHbits.TRISH8=1; // pushbutton B
+    TRISHbits.TRISH9=1; // input, pushbutton A
+    TRISHbits.TRISH8=1; // input, pushbutton B
+    TRISEbits.TRISE1=1; // input, home sensor
+    ANSELEbits.ANSE1=0; // disable ADC on home sensor pin
 
     IOCON2bits.PENH = 1;    // as PWM port
     IOCON2bits.PENL = 0;    // as I/O

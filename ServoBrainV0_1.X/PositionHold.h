@@ -9,7 +9,7 @@
 
 extern PIDParams PHoldPID;
 
-void PositionHold(const State *current, const State *target);
+int16_t PositionHold(const State *current, const State *target);
 
 
 

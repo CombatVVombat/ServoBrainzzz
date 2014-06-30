@@ -1,8 +1,8 @@
 #include "VelocityHold.h"
 
-PIDParams VHoldPID = { .P=9000, .I=64, .D=0, .IaccumMax=1000000 };
+PIDParams VHoldPID = { .P=5000, .I=40, .D=0, .IaccumMax=1000000 };
 
-void VelocityHold(int16_t vCurrent, int16_t vTarget)
+int16_t VelocityHold(int16_t vCurrent, int16_t vTarget)
 {
     // D is not implemented
 
@@ -23,21 +23,5 @@ void VelocityHold(int16_t vCurrent, int16_t vTarget)
         command = -32767;
     command = (int16_t)command;
 
-    debugCtrlBuf[debugIndex] = command;
-    debugCommandBuf[debugIndex] = vTarget;
-    debugModeBuf[debugIndex] = 'V';
-
-    if(command >= 0)
-    {
-        // clockwise, viewed from encoder side
-        directionA = 1;
-        directionB = 0;
-    }
-    else
-    {
-        directionA = 0;
-        directionB = 1;
-        command *= -1;
-    }
-    PDC2 = command;
+    return command;
 }

@@ -17,8 +17,19 @@
 
 #define VMax 850
 
-int16_t GetVelTarget(const State *current, const State *target);
-void GotoState(const State *current, const State *target);
+typedef enum MotionMode
+{
+    MM_VELOCITYHOLD,
+    MM_POSITIONHOLD
+} MotionMode;
+
+extern State currentState;
+extern State targetState;
+
+void CommandMotor(const int16_t power);
+MotionMode SelectControlMode();
+int16_t GetVelTarget();
+
 
 
 #endif	/* MOTION_H */

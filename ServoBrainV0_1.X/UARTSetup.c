@@ -1,5 +1,7 @@
 #include "UARTSetup.h"
 
+SerialBuffer UART1Buffer;
+
 void UARTSetup()
 {
     U1MODEbits.BRGH = 1;

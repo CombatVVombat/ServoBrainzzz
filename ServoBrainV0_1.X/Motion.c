@@ -1,15 +1,37 @@
 #include "Motion.h"
 
-void GotoState(const State *current, const State *target)
+State currentState = {0,0};
+State targetState = {0,0};
+
+void CommandMotor(const int16_t command)
 {
-    int32_t distanceToTarget = abval32(target->s - current->s);
-    if(distanceToTarget > 64)
+    if(command >= 0)
     {
-        VelocityHold(current->v, GetVelTarget(current, target));
+        // clockwise, viewed from encoder side
+        directionA = 1;
+        directionB = 0;
+        PDC2 = command;
     }
     else
     {
-        PositionHold(current, target);
+        directionA = 0;
+        directionB = 1;
+        PDC2 = -command;
+    }
+}
+
+MotionMode SelectControlMode(const State *current, const State *target)
+{
+    // Use velocity hold if far enough from the target to require a trapazoid motion profile
+    // If very close to target position, hold directly on position error PID
+    int32_t distanceToTarget = abval32(target->s - current->s);
+    if(distanceToTarget > 64)
+    {
+        return MM_VELOCITYHOLD;
+    }
+    else
+    {
+        return MM_POSITIONHOLD;
     }
 }
 

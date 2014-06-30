@@ -19,6 +19,8 @@ typedef struct SerialBuffer
     char buffer[bufferSize];
 } SerialBuffer;
 
+extern SerialBuffer UART1Buffer;
+
 void UARTSetup();
 void putch(unsigned char byte);
 void receiveSerial(struct SerialBuffer *SB);

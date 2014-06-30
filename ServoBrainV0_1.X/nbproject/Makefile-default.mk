@@ -45,17 +45,17 @@ OBJECTDIR=build/${CND_CONF}/${IMAGE_TYPE}
 DISTDIR=dist/${CND_CONF}/${IMAGE_TYPE}
 
 # Source Files Quoted if spaced
-SOURCEFILES_QUOTED_IF_SPACED=Main.c Motion.c UARTSetup.c Physics.c EncoderSetup.c InterruptSetup.c OscSetup.c PortsSetup.c PWMSetup.c Startup.c AccelTable.c BinaryPrinters.c VelocityHold.c PushButton.c MotionDebug.c PositionHold.c abs.c
+SOURCEFILES_QUOTED_IF_SPACED=Main.c Motion.c UARTSetup.c Physics.c EncoderSetup.c InterruptSetup.c OscSetup.c PortsSetup.c PWMSetup.c Startup.c AccelTable.c BinaryPrinters.c VelocityHold.c PushButton.c MotionDebug.c PositionHold.c abs.c D:/Programming/LocalGit/ServoBrainzzz/ServoBrainV0_1.X/HomeSwitch.c D:/Programming/LocalGit/ServoBrainzzz/ServoBrainV0_1.X/T1Interrupt.c D:/Programming/LocalGit/ServoBrainzzz/ServoBrainV0_1.X/T2Interrupt.c D:/Programming/LocalGit/ServoBrainzzz/ServoBrainV0_1.X/ProgramState.c
 
 # Object Files Quoted if spaced
-OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/Main.o ${OBJECTDIR}/Motion.o ${OBJECTDIR}/UARTSetup.o ${OBJECTDIR}/Physics.o ${OBJECTDIR}/EncoderSetup.o ${OBJECTDIR}/InterruptSetup.o ${OBJECTDIR}/OscSetup.o ${OBJECTDIR}/PortsSetup.o ${OBJECTDIR}/PWMSetup.o ${OBJECTDIR}/Startup.o ${OBJECTDIR}/AccelTable.o ${OBJECTDIR}/BinaryPrinters.o ${OBJECTDIR}/VelocityHold.o ${OBJECTDIR}/PushButton.o ${OBJECTDIR}/MotionDebug.o ${OBJECTDIR}/PositionHold.o ${OBJECTDIR}/abs.o
-POSSIBLE_DEPFILES=${OBJECTDIR}/Main.o.d ${OBJECTDIR}/Motion.o.d ${OBJECTDIR}/UARTSetup.o.d ${OBJECTDIR}/Physics.o.d ${OBJECTDIR}/EncoderSetup.o.d ${OBJECTDIR}/InterruptSetup.o.d ${OBJECTDIR}/OscSetup.o.d ${OBJECTDIR}/PortsSetup.o.d ${OBJECTDIR}/PWMSetup.o.d ${OBJECTDIR}/Startup.o.d ${OBJECTDIR}/AccelTable.o.d ${OBJECTDIR}/BinaryPrinters.o.d ${OBJECTDIR}/VelocityHold.o.d ${OBJECTDIR}/PushButton.o.d ${OBJECTDIR}/MotionDebug.o.d ${OBJECTDIR}/PositionHold.o.d ${OBJECTDIR}/abs.o.d
+OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/Main.o ${OBJECTDIR}/Motion.o ${OBJECTDIR}/UARTSetup.o ${OBJECTDIR}/Physics.o ${OBJECTDIR}/EncoderSetup.o ${OBJECTDIR}/InterruptSetup.o ${OBJECTDIR}/OscSetup.o ${OBJECTDIR}/PortsSetup.o ${OBJECTDIR}/PWMSetup.o ${OBJECTDIR}/Startup.o ${OBJECTDIR}/AccelTable.o ${OBJECTDIR}/BinaryPrinters.o ${OBJECTDIR}/VelocityHold.o ${OBJECTDIR}/PushButton.o ${OBJECTDIR}/MotionDebug.o ${OBJECTDIR}/PositionHold.o ${OBJECTDIR}/abs.o ${OBJECTDIR}/_ext/2094536564/HomeSwitch.o ${OBJECTDIR}/_ext/2094536564/T1Interrupt.o ${OBJECTDIR}/_ext/2094536564/T2Interrupt.o ${OBJECTDIR}/_ext/2094536564/ProgramState.o
+POSSIBLE_DEPFILES=${OBJECTDIR}/Main.o.d ${OBJECTDIR}/Motion.o.d ${OBJECTDIR}/UARTSetup.o.d ${OBJECTDIR}/Physics.o.d ${OBJECTDIR}/EncoderSetup.o.d ${OBJECTDIR}/InterruptSetup.o.d ${OBJECTDIR}/OscSetup.o.d ${OBJECTDIR}/PortsSetup.o.d ${OBJECTDIR}/PWMSetup.o.d ${OBJECTDIR}/Startup.o.d ${OBJECTDIR}/AccelTable.o.d ${OBJECTDIR}/BinaryPrinters.o.d ${OBJECTDIR}/VelocityHold.o.d ${OBJECTDIR}/PushButton.o.d ${OBJECTDIR}/MotionDebug.o.d ${OBJECTDIR}/PositionHold.o.d ${OBJECTDIR}/abs.o.d ${OBJECTDIR}/_ext/2094536564/HomeSwitch.o.d ${OBJECTDIR}/_ext/2094536564/T1Interrupt.o.d ${OBJECTDIR}/_ext/2094536564/T2Interrupt.o.d ${OBJECTDIR}/_ext/2094536564/ProgramState.o.d
 
 # Object Files
-OBJECTFILES=${OBJECTDIR}/Main.o ${OBJECTDIR}/Motion.o ${OBJECTDIR}/UARTSetup.o ${OBJECTDIR}/Physics.o ${OBJECTDIR}/EncoderSetup.o ${OBJECTDIR}/InterruptSetup.o ${OBJECTDIR}/OscSetup.o ${OBJECTDIR}/PortsSetup.o ${OBJECTDIR}/PWMSetup.o ${OBJECTDIR}/Startup.o ${OBJECTDIR}/AccelTable.o ${OBJECTDIR}/BinaryPrinters.o ${OBJECTDIR}/VelocityHold.o ${OBJECTDIR}/PushButton.o ${OBJECTDIR}/MotionDebug.o ${OBJECTDIR}/PositionHold.o ${OBJECTDIR}/abs.o
+OBJECTFILES=${OBJECTDIR}/Main.o ${OBJECTDIR}/Motion.o ${OBJECTDIR}/UARTSetup.o ${OBJECTDIR}/Physics.o ${OBJECTDIR}/EncoderSetup.o ${OBJECTDIR}/InterruptSetup.o ${OBJECTDIR}/OscSetup.o ${OBJECTDIR}/PortsSetup.o ${OBJECTDIR}/PWMSetup.o ${OBJECTDIR}/Startup.o ${OBJECTDIR}/AccelTable.o ${OBJECTDIR}/BinaryPrinters.o ${OBJECTDIR}/VelocityHold.o ${OBJECTDIR}/PushButton.o ${OBJECTDIR}/MotionDebug.o ${OBJECTDIR}/PositionHold.o ${OBJECTDIR}/abs.o ${OBJECTDIR}/_ext/2094536564/HomeSwitch.o ${OBJECTDIR}/_ext/2094536564/T1Interrupt.o ${OBJECTDIR}/_ext/2094536564/T2Interrupt.o ${OBJECTDIR}/_ext/2094536564/ProgramState.o
 
 # Source Files
-SOURCEFILES=Main.c Motion.c UARTSetup.c Physics.c EncoderSetup.c InterruptSetup.c OscSetup.c PortsSetup.c PWMSetup.c Startup.c AccelTable.c BinaryPrinters.c VelocityHold.c PushButton.c MotionDebug.c PositionHold.c abs.c
+SOURCEFILES=Main.c Motion.c UARTSetup.c Physics.c EncoderSetup.c InterruptSetup.c OscSetup.c PortsSetup.c PWMSetup.c Startup.c AccelTable.c BinaryPrinters.c VelocityHold.c PushButton.c MotionDebug.c PositionHold.c abs.c D:/Programming/LocalGit/ServoBrainzzz/ServoBrainV0_1.X/HomeSwitch.c D:/Programming/LocalGit/ServoBrainzzz/ServoBrainV0_1.X/T1Interrupt.c D:/Programming/LocalGit/ServoBrainzzz/ServoBrainV0_1.X/T2Interrupt.c D:/Programming/LocalGit/ServoBrainzzz/ServoBrainV0_1.X/ProgramState.c
 
 
 CFLAGS=
@@ -198,6 +198,34 @@ ${OBJECTDIR}/abs.o: abs.c  nbproject/Makefile-${CND_CONF}.mk
 	${MP_CC} $(MP_EXTRA_CC_PRE)  abs.c  -o ${OBJECTDIR}/abs.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/abs.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1  -mno-eds-warn  -omf=elf -O1 -msmart-io=1 -Wall -msfr-warn=off -std=gnu99
 	@${FIXDEPS} "${OBJECTDIR}/abs.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
+${OBJECTDIR}/_ext/2094536564/HomeSwitch.o: D:/Programming/LocalGit/ServoBrainzzz/ServoBrainV0_1.X/HomeSwitch.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} ${OBJECTDIR}/_ext/2094536564 
+	@${RM} ${OBJECTDIR}/_ext/2094536564/HomeSwitch.o.d 
+	@${RM} ${OBJECTDIR}/_ext/2094536564/HomeSwitch.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE)  D:/Programming/LocalGit/ServoBrainzzz/ServoBrainV0_1.X/HomeSwitch.c  -o ${OBJECTDIR}/_ext/2094536564/HomeSwitch.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/2094536564/HomeSwitch.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1  -mno-eds-warn  -omf=elf -O1 -msmart-io=1 -Wall -msfr-warn=off -std=gnu99
+	@${FIXDEPS} "${OBJECTDIR}/_ext/2094536564/HomeSwitch.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
+	
+${OBJECTDIR}/_ext/2094536564/T1Interrupt.o: D:/Programming/LocalGit/ServoBrainzzz/ServoBrainV0_1.X/T1Interrupt.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} ${OBJECTDIR}/_ext/2094536564 
+	@${RM} ${OBJECTDIR}/_ext/2094536564/T1Interrupt.o.d 
+	@${RM} ${OBJECTDIR}/_ext/2094536564/T1Interrupt.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE)  D:/Programming/LocalGit/ServoBrainzzz/ServoBrainV0_1.X/T1Interrupt.c  -o ${OBJECTDIR}/_ext/2094536564/T1Interrupt.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/2094536564/T1Interrupt.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1  -mno-eds-warn  -omf=elf -O1 -msmart-io=1 -Wall -msfr-warn=off -std=gnu99
+	@${FIXDEPS} "${OBJECTDIR}/_ext/2094536564/T1Interrupt.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
+	
+${OBJECTDIR}/_ext/2094536564/T2Interrupt.o: D:/Programming/LocalGit/ServoBrainzzz/ServoBrainV0_1.X/T2Interrupt.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} ${OBJECTDIR}/_ext/2094536564 
+	@${RM} ${OBJECTDIR}/_ext/2094536564/T2Interrupt.o.d 
+	@${RM} ${OBJECTDIR}/_ext/2094536564/T2Interrupt.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE)  D:/Programming/LocalGit/ServoBrainzzz/ServoBrainV0_1.X/T2Interrupt.c  -o ${OBJECTDIR}/_ext/2094536564/T2Interrupt.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/2094536564/T2Interrupt.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1  -mno-eds-warn  -omf=elf -O1 -msmart-io=1 -Wall -msfr-warn=off -std=gnu99
+	@${FIXDEPS} "${OBJECTDIR}/_ext/2094536564/T2Interrupt.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
+	
+${OBJECTDIR}/_ext/2094536564/ProgramState.o: D:/Programming/LocalGit/ServoBrainzzz/ServoBrainV0_1.X/ProgramState.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} ${OBJECTDIR}/_ext/2094536564 
+	@${RM} ${OBJECTDIR}/_ext/2094536564/ProgramState.o.d 
+	@${RM} ${OBJECTDIR}/_ext/2094536564/ProgramState.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE)  D:/Programming/LocalGit/ServoBrainzzz/ServoBrainV0_1.X/ProgramState.c  -o ${OBJECTDIR}/_ext/2094536564/ProgramState.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/2094536564/ProgramState.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1  -mno-eds-warn  -omf=elf -O1 -msmart-io=1 -Wall -msfr-warn=off -std=gnu99
+	@${FIXDEPS} "${OBJECTDIR}/_ext/2094536564/ProgramState.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
+	
 else
 ${OBJECTDIR}/Main.o: Main.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR} 
@@ -318,6 +346,34 @@ ${OBJECTDIR}/abs.o: abs.c  nbproject/Makefile-${CND_CONF}.mk
 	${MP_CC} $(MP_EXTRA_CC_PRE)  abs.c  -o ${OBJECTDIR}/abs.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/abs.o.d"      -mno-eds-warn  -g -omf=elf -O1 -msmart-io=1 -Wall -msfr-warn=off -std=gnu99
 	@${FIXDEPS} "${OBJECTDIR}/abs.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
+${OBJECTDIR}/_ext/2094536564/HomeSwitch.o: D:/Programming/LocalGit/ServoBrainzzz/ServoBrainV0_1.X/HomeSwitch.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} ${OBJECTDIR}/_ext/2094536564 
+	@${RM} ${OBJECTDIR}/_ext/2094536564/HomeSwitch.o.d 
+	@${RM} ${OBJECTDIR}/_ext/2094536564/HomeSwitch.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE)  D:/Programming/LocalGit/ServoBrainzzz/ServoBrainV0_1.X/HomeSwitch.c  -o ${OBJECTDIR}/_ext/2094536564/HomeSwitch.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/2094536564/HomeSwitch.o.d"      -mno-eds-warn  -g -omf=elf -O1 -msmart-io=1 -Wall -msfr-warn=off -std=gnu99
+	@${FIXDEPS} "${OBJECTDIR}/_ext/2094536564/HomeSwitch.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
+	
+${OBJECTDIR}/_ext/2094536564/T1Interrupt.o: D:/Programming/LocalGit/ServoBrainzzz/ServoBrainV0_1.X/T1Interrupt.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} ${OBJECTDIR}/_ext/2094536564 
+	@${RM} ${OBJECTDIR}/_ext/2094536564/T1Interrupt.o.d 
+	@${RM} ${OBJECTDIR}/_ext/2094536564/T1Interrupt.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE)  D:/Programming/LocalGit/ServoBrainzzz/ServoBrainV0_1.X/T1Interrupt.c  -o ${OBJECTDIR}/_ext/2094536564/T1Interrupt.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/2094536564/T1Interrupt.o.d"      -mno-eds-warn  -g -omf=elf -O1 -msmart-io=1 -Wall -msfr-warn=off -std=gnu99
+	@${FIXDEPS} "${OBJECTDIR}/_ext/2094536564/T1Interrupt.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
+	
+${OBJECTDIR}/_ext/2094536564/T2Interrupt.o: D:/Programming/LocalGit/ServoBrainzzz/ServoBrainV0_1.X/T2Interrupt.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} ${OBJECTDIR}/_ext/2094536564 
+	@${RM} ${OBJECTDIR}/_ext/2094536564/T2Interrupt.o.d 
+	@${RM} ${OBJECTDIR}/_ext/2094536564/T2Interrupt.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE)  D:/Programming/LocalGit/ServoBrainzzz/ServoBrainV0_1.X/T2Interrupt.c  -o ${OBJECTDIR}/_ext/2094536564/T2Interrupt.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/2094536564/T2Interrupt.o.d"      -mno-eds-warn  -g -omf=elf -O1 -msmart-io=1 -Wall -msfr-warn=off -std=gnu99
+	@${FIXDEPS} "${OBJECTDIR}/_ext/2094536564/T2Interrupt.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
+	
+${OBJECTDIR}/_ext/2094536564/ProgramState.o: D:/Programming/LocalGit/ServoBrainzzz/ServoBrainV0_1.X/ProgramState.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} ${OBJECTDIR}/_ext/2094536564 
+	@${RM} ${OBJECTDIR}/_ext/2094536564/ProgramState.o.d 
+	@${RM} ${OBJECTDIR}/_ext/2094536564/ProgramState.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE)  D:/Programming/LocalGit/ServoBrainzzz/ServoBrainV0_1.X/ProgramState.c  -o ${OBJECTDIR}/_ext/2094536564/ProgramState.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/2094536564/ProgramState.o.d"      -mno-eds-warn  -g -omf=elf -O1 -msmart-io=1 -Wall -msfr-warn=off -std=gnu99
+	@${FIXDEPS} "${OBJECTDIR}/_ext/2094536564/ProgramState.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
+	
 endif
 
 # ------------------------------------------------------------------------------------
@@ -337,7 +393,7 @@ endif
 ifeq ($(TYPE_IMAGE), DEBUG_RUN)
 dist/${CND_CONF}/${IMAGE_TYPE}/ServoBrainV0_1.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}: ${OBJECTFILES}  nbproject/Makefile-${CND_CONF}.mk    
 	@${MKDIR} dist/${CND_CONF}/${IMAGE_TYPE} 
-	${MP_CC} $(MP_EXTRA_LD_PRE)  -o dist/${CND_CONF}/${IMAGE_TYPE}/ServoBrainV0_1.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}  ${OBJECTFILES_QUOTED_IF_SPACED}      -mcpu=$(MP_PROCESSOR_OPTION)        -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1  -omf=elf  -mreserve=data@0x1000:0x101B -mreserve=data@0x101C:0x101D -mreserve=data@0x101E:0x101F -mreserve=data@0x1020:0x1021 -mreserve=data@0x1022:0x1023 -mreserve=data@0x1024:0x1027 -mreserve=data@0x1028:0x104F   -Wl,--local-stack,--defsym=__MPLAB_BUILD=1,--defsym=__MPLAB_DEBUG=1,--defsym=__DEBUG=1,--defsym=__MPLAB_DEBUGGER_PK3=1,$(MP_LINKER_FILE_OPTION),--stack=16,--check-sections,--data-init,--pack-data,--handles,--isr,--no-gc-sections,--fill-upper=0,--stackguard=16,--no-force-link,--smart-io,--report-mem$(MP_EXTRA_LD_POST) 
+	${MP_CC} $(MP_EXTRA_LD_PRE)  -o dist/${CND_CONF}/${IMAGE_TYPE}/ServoBrainV0_1.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}  ${OBJECTFILES_QUOTED_IF_SPACED}      -mcpu=$(MP_PROCESSOR_OPTION)        -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1  -omf=elf -Wl,--local-stack,--defsym=__MPLAB_BUILD=1,--defsym=__ICD2RAM=1,--defsym=__MPLAB_DEBUG=1,--defsym=__DEBUG=1,--defsym=__MPLAB_DEBUGGER_PK3=1,$(MP_LINKER_FILE_OPTION),--stack=16,--check-sections,--data-init,--pack-data,--handles,--isr,--no-gc-sections,--fill-upper=0,--stackguard=16,--no-force-link,--smart-io,--report-mem$(MP_EXTRA_LD_POST) 
 	
 else
 dist/${CND_CONF}/${IMAGE_TYPE}/ServoBrainV0_1.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}: ${OBJECTFILES}  nbproject/Makefile-${CND_CONF}.mk   

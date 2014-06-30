@@ -10,17 +10,40 @@
 
 #include "stdint.h"
 #include "stdio.h"
+#include "string.h"
 
-#define DEBUG_BUF_SIZE 512
+#define DEBUG_BUF_SIZE 1024
+#define CHANNELS32 2
+#define CHANNELS16 3
+#define CHANNELS8 1
+
+typedef struct DebugChannel32
+{
+    char name[16];
+    int32_t buffer[DEBUG_BUF_SIZE];
+} DebugChannel32;
+
+typedef struct DebugChannel16
+{
+    char name[16];
+    int16_t buffer[DEBUG_BUF_SIZE];
+} DebugChannel16;
+
+typedef struct DebugChannel8
+{
+    char name[16];
+    int8_t buffer[DEBUG_BUF_SIZE];
+} DebugChannel8;
+
 
 // Output array for debugging motion
 extern uint16_t debugIndex;
-__attribute__((far)) extern int32_t debugPosBuf[DEBUG_BUF_SIZE];
-__attribute__((far)) extern int16_t debugVelBuf[DEBUG_BUF_SIZE];
-__attribute__((far)) extern int16_t debugCtrlBuf[DEBUG_BUF_SIZE];
-__attribute__((far)) extern int32_t debugCommandBuf[DEBUG_BUF_SIZE];
-__attribute__((far)) extern char    debugModeBuf[DEBUG_BUF_SIZE];
 
+__attribute__((far)) extern DebugChannel32 debug32[CHANNELS32];
+__attribute__((far)) extern DebugChannel16 debug16[CHANNELS16];
+__attribute__((far)) extern DebugChannel8 debug8[CHANNELS8];
+
+void SetupDebugBuffers();
 void OutputBuffer();
 
 #endif	/* MOTIONDEBUG_H */

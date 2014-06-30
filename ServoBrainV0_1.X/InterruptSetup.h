@@ -14,7 +14,7 @@ void InterruptSetup();
 void EnableT1Interrupt();
 void DisableT1Interrupt();
 void EnableT2Interrupt();
-void DisableT2Interupt();
+void DisableT2Interrupt();
 
 #endif	/* INTERRUPTSETUP_H */
 

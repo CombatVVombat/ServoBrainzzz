@@ -1,23 +1,24 @@
 
 #include "p33EP512MU814.h"
+#include "T1Interrupt.h"
+#include "T2Interrupt.h"
 #include "string.h"
-#include "Startup.h"
+#include "HomeSwitch.h"
 #include "Physics.h"
 #include "ProgramState.h"
 #include "PushButton.h"
 #include "Motion.h"
 #include "MotionDebug.h"
+#include "Startup.h"
 #include "VelocityHold.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 /////// THE AMAZING TODO FLOWER BOCKS //////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
-////// Change velocity representations to 16bit and position to 32bit //////////
-/////   In VelocityHold
-/////   AccelTable???
-/////   Motion: CalcProfile
-/////   Physics?                Done?  Maybe.
-/////
+//////  Home routine
+//////  Tinker with AccelTable resolution
+//////  Self-Learn
+//////   
 
 /// Configuration Bits ///
 _FGS( GWRP_OFF & GSS_OFF & GSSK_OFF);
@@ -28,94 +29,58 @@ _FPOR( FPWRT_PWR1 & BOREN_OFF & ALTI2C1_ON & ALTI2C2_ON);
 _FICD( ICS_PGD3 & RSTPRI_PF & JTAGEN_OFF);
 _FAS( AWRP_OFF & APL_OFF & APLK_OFF );
 
-int32_t elapsedFrame;
-char T1IntOverBudget;
-State currentState;
-State targetState;
-PushButton buttonA;
-PushButton buttonB;
-SerialBuffer UART1Buffer;
+ProgramState programState = PS_STARTUP;
 
-void __attribute__((__interrupt__, no_auto_psv)) _T1Interrupt(void)
-{
-    IFS0bits.T1IF = 0;
-    T1IntOverBudget = 1;
-    
-    currentState.s = readPosition();
-    currentState.v = readVelocity();     // Only do this once per dt
-
-    GotoState(&currentState, &targetState);
-
-    if(debugIndex < DEBUG_BUF_SIZE)
-    {
-        debugPosBuf[debugIndex] = currentState.s;
-        debugVelBuf[debugIndex] = currentState.v;
-        debugIndex++;
-    }
-    elapsedFrame++;
-    T1IntOverBudget = 0;
-}
-
-void __attribute__((__interrupt__,no_auto_psv)) _T2Interrupt(void)
-{
-    IFS0bits.T2IF = 0;
-    UpdateButton(BUTTON_A_PORT, &buttonA);
-    UpdateButton(BUTTON_B_PORT, &buttonB);
-}
 
 int main(int argc, char** argv)
 {
-    while(1)
+    while(1)    
     {
         switch(programState)
         {
-            case startUp:
+            case PS_STARTUP:
             {
                 Startup();
-                programState = initialize;
+                SetupDebugBuffers();
+                programState = PS_INITIALIZE;
                 break;
             }
-            case initialize:
+            case PS_INITIALIZE:
             {
                 printf("Entering State: initialize.\n");
                 ResetButton(&buttonA);
                 ResetButton(&buttonB);
                 AccelTableBuildDefault();
-
-                programState = enterRun;
+                programState = PS_ENTER_RUN;
                 break;
             }
-            case enterRun:
+            case PS_ENTER_RUN:
             {
                 printf("Entering State: enterRun.\n");
                 EnablePWM();
                 EnableT1Interrupt();
                 printf("Entering State: run.\n");
-                programState = run;
+                programState = PS_RUN;
                 break;
             }
-            case run:
+            case PS_RUN:
             {
-                if(buttonA.timeDown > 10)
-                {
-                    targetState.s = -131072;
-                    programState = enterRun;
-                    printf("Start Button Ack.\n");
-                }
                 if(buttonB.timeDown > 10)
                 {
-                    targetState.s = 131072;
-                    programState = enterRun;
+                    ResetButton(&buttonB);
                     printf("Start Button Ack.\n");
+                    programState = PS_HOMING;
                 }
                 if(T1IntOverBudget)
-                {
-                    printf("T1IntOverBudget.\n");
-                    programState = pause;
-                }
+                    printf("T1OverBudget.\n");
                 break;
             }
-            case pause:
+            case PS_HOMING:
+            {
+                programState = GoHome(&currentState, &targetState);
+                break;
+            }
+            case PS_PAUSE:
             {
                 printf("Entering State: pause.\n");
                 DisableT1Interrupt();
@@ -124,18 +89,23 @@ int main(int argc, char** argv)
                 {
                     Nop();
                 }
-                programState = enterRun;
+                programState = PS_ENTER_RUN;
                 break;
             }
-            case outputDebug:
+            case PS_OUTPUT_DEBUG:
             {
                 printf("Entering State: outputDebug\n");
                 DisableT1Interrupt();
                 DisablePWM();
+                printf("Push ButtonB to output...\n");
 
-                //OutputBuffer();
+                while(buttonB.timeDown < 50)
+                {
+                    Nop();
+                }
+                OutputBuffer();
 
-                programState = initialize;
+                programState = PS_INITIALIZE;
                 break;
             }
         }

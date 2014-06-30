@@ -10,6 +10,10 @@
 
 #include "stdint.h"
 #include "stdio.h"
+#include "InterruptSetup.h"
+
+#define BUTTON_A_PORT PORTHbits.RH9
+#define BUTTON_B_PORT PORTHbits.RH8
 
 typedef struct PushButton
 {
@@ -20,7 +24,7 @@ typedef struct PushButton
 
 } PushButton;
 
-void UpdateButton(const unsigned portToCheck, PushButton* pushButton);
+void UpdateButton(const unsigned int port, PushButton* pushButton);     // Only called by interrupt T2
 void ResetButton(PushButton* pushButton);
 
 

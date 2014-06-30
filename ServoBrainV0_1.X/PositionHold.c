@@ -1,8 +1,8 @@
 #include "PositionHold.h"
 
-PIDParams PHoldPID = { .P=700, .I=24, .D=2, .IaccumMax=1000000 };
+PIDParams PHoldPID = { .P=300, .I=12, .D=4, .IaccumMax=1000000 };
 
-void PositionHold(const State *current, const State *target)
+int16_t PositionHold(const State *current, const State *target)
 {
     PHoldPID.error = (target->s - current->s);
     PHoldPID.Pvalue = (PHoldPID.error * PHoldPID.P);
@@ -21,21 +21,5 @@ void PositionHold(const State *current, const State *target)
         command = -32767;
     command = (int16_t)command;
 
-    debugCtrlBuf[debugIndex] = command;
-    debugCommandBuf[debugIndex] = target->s;
-    debugModeBuf[debugIndex] = 'P';
-
-    if(command >= 0)
-    {
-        // clockwise, viewed from encoder side
-        directionA = 1;
-        directionB = 0;
-    }
-    else
-    {
-        directionA = 0;
-        directionB = 1;
-        command *= -1;
-    }
-    PDC2 = command;
+    return command;
 }

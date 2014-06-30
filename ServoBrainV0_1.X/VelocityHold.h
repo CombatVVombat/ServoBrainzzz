@@ -8,7 +8,7 @@
 
 extern PIDParams VHoldPID;       // PID VALUES in Q<8,8>
 
-void VelocityHold(int16_t vCurrent, int16_t vTarget);
+int16_t VelocityHold(int16_t vCurrent, int16_t vTarget);
 
 
 
